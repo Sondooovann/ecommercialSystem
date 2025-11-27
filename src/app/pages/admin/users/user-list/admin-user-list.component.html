@@ -1,0 +1,159 @@
+<div class="admin-user-list-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1>Quản lý người dùng</h1>
+      <p class="subtitle">Tổng số: {{ totalUsers }} người dùng</p>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-section">
+    <div class="search-box">
+      <span class="search-icon" [innerHTML]="ICON_SEARCH | safeHtml"></span>
+      <input
+        type="text"
+        [(ngModel)]="searchText"
+        (keyup.enter)="onSearch()"
+        placeholder="Tìm kiếm theo tên, email, số điện thoại...">
+      <button class="search-btn" (click)="onSearch()">Tìm kiếm</button>
+    </div>
+
+    <div class="filter-group">
+      <label>Vai trò:</label>
+      <select [(ngModel)]="selectedRole" (change)="onFilterChange()">
+        <option value="all">Tất cả</option>
+        <option value="customer">Khách hàng</option>
+        <option value="shop_owner">Chủ shop</option>
+        <option value="admin">Quản trị viên</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Trạng thái:</label>
+      <select [(ngModel)]="selectedStatus" (change)="onFilterChange()">
+        <option value="all">Tất cả</option>
+        <option value="active">Hoạt động</option>
+        <option value="inactive">Không hoạt động</option>
+        <option value="banned">Đã khóa</option>
+      </select>
+    </div>
+
+    <button class="clear-btn" (click)="clearFilters()">
+      Xóa bộ lọc
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Đang tải danh sách người dùng...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-state">
+    <p>{{ error }}</p>
+    <button class="retry-button" (click)="loadUsers()">Thử lại</button>
+  </div>
+
+  <!-- Users Table -->
+  <div *ngIf="!loading && !error" class="users-section">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Họ tên</th>
+            <th>Email</th>
+            <th>Số điện thoại</th>
+            <th>Vai trò</th>
+            <th>Trạng thái</th>
+            <th>Ngày tạo</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td class="user-id">#{{ user.id }}</td>
+            <td class="user-name">
+              <div class="name-wrapper">
+                <div class="avatar" *ngIf="user.avatar">
+                  <img [src]="user.avatar" [alt]="user.full_name">
+                </div>
+                <div class="avatar-placeholder" *ngIf="!user.avatar">
+                  {{ user.full_name.charAt(0).toUpperCase() }}
+                </div>
+                <span>{{ user.full_name }}</span>
+              </div>
+            </td>
+            <td class="user-email">{{ user.email }}</td>
+            <td class="user-phone">{{ user.phone || 'N/A' }}</td>
+            <td>
+              <span class="role-badge" [ngClass]="getRoleClass(user.role)">
+                {{ getRoleText(user.role) }}
+              </span>
+            </td>
+            <td>
+              <span class="status-badge" [ngClass]="getStatusClass(user.status)">
+                {{ getStatusText(user.status) }}
+              </span>
+            </td>
+            <td class="user-date">
+              {{ formatDate(user.created_at!) }}
+            </td>
+            <td class="user-actions">
+              <span 
+                class="action-icon view" 
+                [innerHTML]="ICON_VIEW | safeHtml" 
+                (click)="viewUser(user.id!)"
+                title="Xem chi tiết"></span>
+              <span 
+                class="action-icon edit" 
+                [innerHTML]="ICON_EDIT | safeHtml" 
+                (click)="editUser(user.id!)"
+                title="Chỉnh sửa"></span>
+              <span 
+                class="action-icon delete" 
+                [innerHTML]="ICON_TRASH | safeHtml" 
+                (click)="deleteUser(user)"
+                title="Xóa"></span>
+              <button 
+                class="toggle-status-btn" 
+                [class.active]="user.status === 'active'"
+                (click)="toggleUserStatus(user)">
+                {{ user.status === 'active' ? 'Vô hiệu hóa' : 'Kích hoạt' }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="users.length === 0" class="empty-state">
+      <p>Không tìm thấy người dùng nào</p>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="users.length > 0 && totalPages > 1" class="pagination">
+      <button
+        class="page-btn"
+        [disabled]="currentPage === 1"
+        (click)="onPageChange(currentPage - 1)">
+        Trước
+      </button>
+
+      <div class="page-info">
+        Trang {{ currentPage }} / {{ totalPages }}
+      </div>
+
+      <button
+        class="page-btn"
+        [disabled]="currentPage === totalPages"
+        (click)="onPageChange(currentPage + 1)">
+        Sau
+      </button>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,95 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <h1>Dashboard</h1>
+    <p class="subtitle">Tổng quan hệ thống quản trị</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Đang tải dữ liệu...</p>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div *ngIf="!loading" class="dashboard-content">
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+      <div *ngFor="let card of statCards" class="stat-card" [style.border-color]="card.color">
+        <div class="card-icon" [style.background-color]="card.color">
+          <span [innerHTML]="card.icon | safeHtml"></span>
+        </div>
+        <div class="card-content">
+          <p class="card-title">{{ card.title }}</p>
+          <h2 class="card-value">{{ card.value }}</h2>
+          <div class="card-change" *ngIf="card.change" [class.positive]="card.changeType === 'up'" [class.negative]="card.changeType === 'down'">
+            <span class="change-icon" [innerHTML]="card.changeType === 'up' ? ICON_ARROW_UP : ICON_ARROW_DOWN | safeHtml"></span>
+            <span>{{ card.change }} so với tháng trước</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <h3>Thao tác nhanh</h3>
+      <div class="actions-grid">
+        <button class="action-btn products" (click)="navigateToProducts()">
+          <span class="btn-icon" [innerHTML]="ICON_PRODUCTS | safeHtml"></span>
+          <span class="btn-text">Quản lý sản phẩm</span>
+        </button>
+        <button class="action-btn orders" (click)="navigateToOrders()">
+          <span class="btn-icon" [innerHTML]="ICON_ORDERS | safeHtml"></span>
+          <span class="btn-text">Quản lý đơn hàng</span>
+        </button>
+        <button class="action-btn users" (click)="navigateToUsers()">
+          <span class="btn-icon" [innerHTML]="ICON_USERS | safeHtml"></span>
+          <span class="btn-text">Quản lý khách hàng</span>
+        </button>
+        <button class="action-btn reports" (click)="navigateToReports()">
+          <span class="btn-icon" [innerHTML]="ICON_REVENUE | safeHtml"></span>
+          <span class="btn-text">Báo cáo & Thống kê</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Recent Orders -->
+    <div class="recent-orders">
+      <div class="section-header">
+        <h3>Đơn hàng gần đây</h3>
+        <button class="view-all-btn" (click)="navigateToOrders()">Xem tất cả</button>
+      </div>
+      <div class="orders-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã ĐH</th>
+              <th>Khách hàng</th>
+              <th>Tổng tiền</th>
+              <th>Trạng thái</th>
+              <th>Ngày đặt</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of recentOrders">
+              <td class="order-id">#{{ order.id }}</td>
+              <td>{{ order.customerName }}</td>
+              <td class="order-total">{{ formatPrice(order.total) }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="getStatusClass(order.status)">
+                  {{ getStatusText(order.status) }}
+                </span>
+              </td>
+              <td class="order-date">{{ formatDate(order.date) }}</td>
+              <td>
+                <button class="view-btn" (click)="viewOrderDetail(order.id)">Xem</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

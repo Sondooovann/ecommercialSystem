@@ -1,0 +1,284 @@
+@import '../../../styles/scss/_variables-base.scss';
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:host ::ng-deep .verify-otp-container {
+  min-height: 100vh;
+  width: 100%;
+  background-color: $color-white;
+  padding: 0 150px;
+
+  .left-container {
+    z-index: 1;
+    padding: 0 50px;
+
+    .form-title {
+      font-size: 32px;
+      font-weight: 600;
+    }
+
+    .form-description {
+      width: min(690px, 100%);
+      text-align: center;
+      font-size: $font-size-md;
+      color: $color-text-700;
+    }
+
+    .alert {
+      width: min(690px, 100%);
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      
+      &.alert-danger {
+        background-color: #ffebee;
+        color: #d32f2f;
+        border: 1px solid #ef5350;
+      }
+      
+      &.alert-success {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid #66bb6a;
+      }
+    }
+
+    .custom-auth-input {
+      height: 56px;
+      width: min(690px, 100%);
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      &.otp-input {
+        .otp-code-input {
+          text-align: center;
+          font-size: 24px;
+          font-weight: 600;
+          letter-spacing: 8px;
+          padding: 8px 16px;
+        }
+
+        label {
+          left: 16px;
+        }
+      }
+
+      .prefix-icon {
+        position: absolute;
+        pointer-events: none;
+        left: 16px;
+
+        svg {
+          width: 24px;
+          height: 24px;
+        }
+      }
+
+      label {
+        position: absolute;
+        pointer-events: none;
+        left: 48px;
+        transition: all 0.3s ease;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: $font-size-md;
+        color: $color-text-900;
+      }
+
+      input {
+        border-radius: 8px;
+        width: 100%;
+        height: 100%;
+        border: 1px solid $color-text-400;
+        padding: 8px 48px;
+        background-color: $color-white;
+        caret-color: $color-base;
+        color: $color-text-900;
+
+        &:focus,
+        &:hover {
+          outline: none;
+          border: 1px solid $color-base;
+        }
+
+        &::placeholder {
+          color: transparent;
+          transition: all 0.3s ease;
+        }
+
+        &[readonly] {
+          background-color: #f5f5f5;
+          cursor: not-allowed;
+        }
+      }
+
+      &:has(input:focus),
+      &:has(input:not(:placeholder-shown)),
+      &:has(input:-webkit-autofill) {
+        label {
+          top: 0;
+          font-size: $font-size-xs;
+          color: $color-text-800;
+          left: 16px;
+          background-color: $color-white;
+          padding: 0 4px;
+        }
+
+        input::placeholder {
+          color: $color-text-800;
+        }
+      }
+    }
+
+    .custom-auth-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: min(690px, 100%);
+
+      .resend-btn {
+        background: transparent;
+        border: none;
+        color: $color-base;
+        text-decoration: underline;
+        cursor: pointer;
+        font-size: $font-size-md;
+        padding: 0;
+        
+        &:hover {
+          opacity: 0.8;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+
+      .verify-button {
+        width: 100%;
+        height: 56px;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+        background-color: $color-base;
+        color: $color-white;
+        font-size: $font-size-md;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.2s;
+
+        &:hover:not(:disabled) {
+          opacity: 0.9;
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+
+  .right-container {
+    z-index: 1;
+    padding: 0 50px;
+    height: 100%;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      path {
+        fill: $color-base;
+      }
+    }
+
+    .footer-title {
+      font-size: $font-size-lg;
+      font-weight: 600;
+      color: $color-base;
+    }
+
+    .footer-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: $font-size-sm;
+      color: $color-text-900;
+    }
+  }
+
+  .right-bg {
+    position: absolute;
+    width: 50%;
+    top: 0;
+    right: 0;
+    height: 100%;
+    background-color: $color-base-50;
+    z-index: 0;
+  }
+}
+
+.color-base {
+  color: $color-base;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+@media screen and (max-width: 1292px) {
+  :host .verify-otp-container {
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  :host .verify-otp-container {
+    padding: 32px 0;
+    height: auto;
+    flex-direction: column;
+    overflow-y: auto;
+
+    .left-container,
+    .right-container {
+      padding: 0 16px;
+      width: 100% !important;
+    }
+
+    .right-container {
+      margin-top: 32px;
+      div:has(> img) {
+        display: none;
+      }
+
+      .row {
+        justify-content: center;
+      }
+
+      .col-12 {
+        width: min(690px, 100%) !important;
+      }
+    }
+
+    .right-bg {
+      display: none;
+    }
+
+    .d-flex:has(.footer-info) {
+      width: 100%;
+      align-items: flex-start !important;
+      flex-direction: column;
+      gap: 0 !important;
+    }
+  }
+}
+
+
+

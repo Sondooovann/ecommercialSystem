@@ -1,0 +1,26 @@
+<div class="menu-container">
+  <ul class="menu-list">
+    <li><a routerLink="/buyer">Trang chủ</a></li>
+    <li><a routerLink="/gioi-thieu">Lịch sử hình thành</a></li>
+    <li><a routerLink="/gioi-thieu">Đại lý</a></li>
+    <li><a routerLink="/gioi-thieu">Giới thiệu</a></li>
+
+    <li class="dropdown">
+      <a routerLink="/buyer/product">Sản phẩm ▾</a>
+      <ul class="dropdown-menu">
+        <li *ngFor="let category of categories">
+          <a [routerLink]="['/buyer/product']" [queryParams]="{category_id: category.id}">{{ category.name }}</a>
+        </li>
+        <li *ngIf="categories.length === 0 && !loading">
+          <a>Không có danh mục</a>
+        </li>
+        <li *ngIf="loading">
+          <a>Đang tải...</a>
+        </li>
+      </ul>
+    </li>
+
+    <li><a routerLink="/tin-tuc">Tin tức</a></li>
+    <li><a routerLink="/lien-he">Liên hệ</a></li>
+  </ul>
+</div>

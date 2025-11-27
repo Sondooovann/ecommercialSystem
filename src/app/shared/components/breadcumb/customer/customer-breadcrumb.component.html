@@ -1,0 +1,12 @@
+<div class="breadcrumb-wrapper" *ngIf="breadcrumbs.length > 0">
+  <div class="breadcrumb">
+    <a routerLink="/buyer">Trang chủ</a>
+    <ng-container *ngFor="let breadcrumb of breadcrumbs; let last = last">
+      <span>&gt;</span>
+      <ng-container *ngIf="!last">
+        <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
+      </ng-container>
+      <span *ngIf="last" class="current">{{ breadcrumb.label }}</span>
+    </ng-container>
+  </div>
+</div>

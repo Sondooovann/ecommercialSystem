@@ -1,0 +1,144 @@
+<div class="agency-container">
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Hệ Thống Đại Lý</h1>
+      <p class="hero-subtitle">Tìm kiếm đại lý Chè Thái Nguyên Xanh gần bạn</p>
+    </div>
+  </section>
+
+  <!-- Search & Filter Section -->
+  <section class="search-filter-section">
+    <div class="container">
+      <div class="search-filter-box">
+        <!-- Search Input -->
+        <div class="search-box">
+          <input
+            type="text"
+            placeholder="Tìm kiếm theo tên, thành phố..."
+            [(ngModel)]="searchText"
+            class="search-input"
+          />
+          <button *ngIf="searchText" class="clear-btn" (click)="clearSearch()">×</button>
+        </div>
+
+        <!-- Region Filter -->
+        <div class="region-filters">
+          <button
+            class="region-btn"
+            [class.active]="selectedRegion === 'all'"
+            (click)="selectRegion('all')">
+            Tất Cả
+          </button>
+          <button
+            class="region-btn"
+            [class.active]="selectedRegion === 'north'"
+            (click)="selectRegion('north')">
+            Miền Bắc
+          </button>
+          <button
+            class="region-btn"
+            [class.active]="selectedRegion === 'central'"
+            (click)="selectRegion('central')">
+            Miền Trung
+          </button>
+          <button
+            class="region-btn"
+            [class.active]="selectedRegion === 'south'"
+            (click)="selectRegion('south')">
+            Miền Nam
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Agencies List Section -->
+  <section class="section agencies-section">
+    <div class="container">
+      <div class="result-info">
+        <p>Tìm thấy <strong>{{ filteredAgencies.length }}</strong> đại lý</p>
+      </div>
+
+      <!-- No Results -->
+      <div *ngIf="filteredAgencies.length === 0" class="no-results">
+        <div class="no-results-icon">🔍</div>
+        <h3>Không tìm thấy đại lý</h3>
+        <p>Vui lòng thử tìm kiếm với từ khóa khác hoặc chọn khu vực khác</p>
+      </div>
+
+      <!-- Agencies Grid -->
+      <div *ngIf="filteredAgencies.length > 0" class="agencies-grid">
+        <div *ngFor="let agency of filteredAgencies" class="agency-card">
+          <div class="agency-header">
+            <div class="agency-icon">🏪</div>
+            <span class="agency-region">{{ getRegionName(agency.region) }}</span>
+          </div>
+
+          <div class="agency-body">
+            <h3 class="agency-name">{{ agency.name }}</h3>
+
+            <div class="agency-info">
+              <div class="info-row">
+                <span class="icon">📍</span>
+                <span class="text">{{ agency.address }}</span>
+              </div>
+              <div class="info-row">
+                <span class="icon">📞</span>
+                <span class="text">{{ agency.phone }}</span>
+              </div>
+              <div class="info-row">
+                <span class="icon">✉️</span>
+                <span class="text">{{ agency.email }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="agency-footer">
+            <button class="btn-contact">Liên Hệ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Become Agency Section -->
+  <section class="section become-agency-section">
+    <div class="container">
+      <div class="become-agency-content">
+        <h2 class="section-title">Trở Thành Đại Lý</h2>
+        <p class="section-subtitle">
+          Đăng ký trở thành đại lý chính thức của Chè Thái Nguyên Xanh và nhận nhiều ưu đãi hấp dẫn
+        </p>
+
+        <div class="benefits-grid">
+          <div *ngFor="let benefit of benefits" class="benefit-card">
+            <div class="benefit-icon">{{ benefit.icon }}</div>
+            <h3 class="benefit-title">{{ benefit.title }}</h3>
+            <p class="benefit-description">{{ benefit.description }}</p>
+          </div>
+        </div>
+
+        <div class="cta-box">
+          <h3>Quan Tâm Trở Thành Đại Lý?</h3>
+          <p>Liên hệ với chúng tôi để được tư vấn chi tiết về chính sách đại lý</p>
+          <div class="contact-info">
+            <div class="contact-item">
+              <span class="contact-icon">📞</span>
+              <span class="contact-text">Hotline: <strong>1900.xxxx</strong></span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-icon">✉️</span>
+              <span class="contact-text">Email: <strong>daily&#64;thainguyenxanh.vn</strong></span>
+            </div>
+          </div>
+          <button class="btn-register">Đăng Ký Ngay</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+

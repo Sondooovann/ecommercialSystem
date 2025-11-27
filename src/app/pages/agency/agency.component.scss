@@ -1,0 +1,464 @@
+@import '../../../styles/scss/variables-base';
+
+.agency-container {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section {
+  padding: 80px 0;
+}
+
+.section-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: $color-text-800;
+  margin: 0 0 16px 0;
+  text-align: center;
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: $font-size-md;
+  color: $color-text-600;
+  margin: 0 0 48px 0;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// Hero Section
+.hero-section {
+  position: relative;
+  height: 350px;
+  background: linear-gradient(135deg, darken($color-base, 10%) 0%, $color-base 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.2) 100%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 20px;
+
+    .hero-title {
+      font-size: 48px;
+      font-weight: 700;
+      color: $color-white;
+      margin: 0 0 16px 0;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .hero-subtitle {
+      font-size: 20px;
+      color: rgba(255,255,255,0.95);
+      margin: 0;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+    }
+  }
+}
+
+// Search & Filter Section
+.search-filter-section {
+  padding: 40px 0;
+  background-color: $color-white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.search-filter-box {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+
+  .search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .search-input {
+      width: 100%;
+      padding: 14px 50px 14px 20px;
+      border: 2px solid $color-gray-300;
+      border-radius: 8px;
+      font-size: $font-size-md;
+      transition: all 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: $color-base;
+        box-shadow: 0 0 0 3px rgba($color-base, 0.1);
+      }
+    }
+
+    .clear-btn {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: $color-text-500;
+      cursor: pointer;
+      padding: 0 8px;
+      transition: color 0.2s;
+
+      &:hover {
+        color: $color-text-800;
+      }
+    }
+  }
+
+  .region-filters {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    .region-btn {
+      padding: 10px 24px;
+      background-color: $color-white;
+      border: 2px solid $color-gray-300;
+      border-radius: 24px;
+      font-size: $font-size-sm;
+      font-weight: 500;
+      color: $color-text-700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        border-color: $color-base;
+        color: $color-base;
+      }
+
+      &.active {
+        background-color: $color-base;
+        border-color: $color-base;
+        color: $color-white;
+      }
+    }
+  }
+}
+
+// Agencies Section
+.agencies-section {
+  background-color: $color-gray-100;
+}
+
+.result-info {
+  text-align: center;
+  margin-bottom: 32px;
+
+  p {
+    font-size: $font-size-md;
+    color: $color-text-600;
+    margin: 0;
+
+    strong {
+      color: $color-base;
+      font-weight: 600;
+    }
+  }
+}
+
+.no-results {
+  text-align: center;
+  padding: 80px 20px;
+
+  .no-results-icon {
+    font-size: 80px;
+    margin-bottom: 24px;
+    opacity: 0.5;
+  }
+
+  h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: $color-text-800;
+    margin: 0 0 12px 0;
+  }
+
+  p {
+    font-size: $font-size-md;
+    color: $color-text-600;
+    margin: 0;
+  }
+}
+
+.agencies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.agency-card {
+  background-color: $color-white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+
+  .agency-header {
+    padding: 20px;
+    background: linear-gradient(135deg, lighten($color-base, 52%) 0%, lighten($color-base, 48%) 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .agency-icon {
+      font-size: 36px;
+    }
+
+    .agency-region {
+      padding: 6px 12px;
+      background-color: $color-base;
+      color: $color-white;
+      border-radius: 16px;
+      font-size: $font-size-xs;
+      font-weight: 600;
+    }
+  }
+
+  .agency-body {
+    padding: 20px;
+
+    .agency-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: $color-text-800;
+      margin: 0 0 16px 0;
+      line-height: 1.4;
+    }
+
+    .agency-info {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .info-row {
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+
+        .icon {
+          font-size: 16px;
+          flex-shrink: 0;
+          margin-top: 2px;
+        }
+
+        .text {
+          font-size: $font-size-sm;
+          color: $color-text-600;
+          line-height: 1.5;
+        }
+      }
+    }
+  }
+
+  .agency-footer {
+    padding: 0 20px 20px;
+
+    .btn-contact {
+      width: 100%;
+      padding: 12px;
+      background-color: $color-base;
+      color: $color-white;
+      border: none;
+      border-radius: 8px;
+      font-size: $font-size-sm;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: darken($color-base, 10%);
+        transform: translateY(-2px);
+      }
+    }
+  }
+}
+
+// Become Agency Section
+.become-agency-section {
+  background-color: $color-white;
+}
+
+.become-agency-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.benefit-card {
+  text-align: center;
+  padding: 24px 16px;
+  background: lighten($color-base, 58%);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba($color-base, 0.2);
+  }
+
+  .benefit-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+
+  .benefit-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: $color-text-800;
+    margin: 0 0 8px 0;
+  }
+
+  .benefit-description {
+    font-size: $font-size-xs;
+    color: $color-text-600;
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
+.cta-box {
+  background: linear-gradient(135deg, $color-base 0%, darken($color-base, 10%) 100%);
+  padding: 48px 32px;
+  border-radius: 12px;
+  text-align: center;
+  color: $color-white;
+
+  h3 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+  }
+
+  > p {
+    font-size: $font-size-md;
+    margin: 0 0 32px 0;
+    opacity: 0.95;
+  }
+
+  .contact-info {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: $font-size-sm;
+
+      .contact-icon {
+        font-size: 20px;
+      }
+
+      strong {
+        font-weight: 600;
+      }
+    }
+  }
+
+  .btn-register {
+    padding: 14px 48px;
+    background-color: $color-white;
+    color: $color-base;
+    border: none;
+    border-radius: 8px;
+    font-size: $font-size-md;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: darken($color-white, 5%);
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .section {
+    padding: 60px 0;
+  }
+
+  .hero-section {
+    height: 280px;
+
+    .hero-content {
+      .hero-title {
+        font-size: 32px;
+      }
+
+      .hero-subtitle {
+        font-size: 16px;
+      }
+    }
+  }
+
+  .search-filter-box {
+    .region-filters {
+      gap: 8px;
+
+      .region-btn {
+        padding: 8px 16px;
+        font-size: $font-size-xs;
+      }
+    }
+  }
+
+  .agencies-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-box {
+    padding: 32px 20px;
+
+    h3 {
+      font-size: 24px;
+    }
+
+    .contact-info {
+      flex-direction: column;
+      gap: 16px;
+    }
+  }
+}
+

@@ -1,0 +1,82 @@
+<div class="cart-modal-backdrop" [class.visible]="isVisible" (click)="onBackdropClick($event)">
+  <div class="cart-modal-content" [class.visible]="isVisible">
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <h3>Giỏ Hàng</h3>
+      <button class="close-btn" (click)="closeModal()">
+        <span [innerHTML]="ICON_CLOSE | safeHtml"></span>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="modal-body">
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-container">
+        <div class="spinner"></div>
+        <p>Đang tải giỏ hàng...</p>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="error && !loading" class="error-container">
+        <p>{{ error }}</p>
+        <button class="retry-btn" (click)="loadCart()">Thử lại</button>
+      </div>
+
+      <!-- Empty Cart -->
+      <div *ngIf="!loading && !error && cart && cart.total_items === 0" class="empty-cart">
+        <div class="empty-icon">🛒</div>
+        <p class="empty-text">Chưa có sản phẩm nào trong giỏ hàng</p>
+      </div>
+
+      <!-- Cart Items -->
+      <div *ngIf="!loading && !error && cart && cart.total_items > 0" class="cart-items">
+        <div class="items-header">
+          <span class="items-count">{{ getTotalItemsText() }}</span>
+        </div>
+
+        <div class="items-list">
+          <div *ngFor="let item of cart.items" class="cart-item">
+            <div class="item-image">
+              <img 
+                [src]="item.variant_details.image_url || getPlaceholderImage()" 
+                [alt]="item.variant_details.product_name"
+                (error)="onImageError($event)"
+              />
+            </div>
+
+            <div class="item-info">
+              <h4 class="item-name">{{ item.variant_details.product_name }}</h4>
+              <p class="item-variant" *ngIf="item.variant_details.attributes.length > 0">
+                <span *ngFor="let attr of item.variant_details.attributes; let last = last">
+                  {{ attr.display_value }}<span *ngIf="!last">, </span>
+                </span>
+              </p>
+              <div class="item-bottom">
+                <div class="item-details">
+                  <span class="item-price">{{ formatPrice(item.price) }}</span>
+                  <span class="item-quantity">x{{ item.quantity }}</span>
+                </div>
+                <button class="delete-btn" (click)="removeItem(item.id, $event)">
+                  <span [innerHTML]="ICON_TRASH | safeHtml"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div *ngIf="!loading && !error && cart && cart.total_items > 0" class="modal-footer">
+      <div class="total-section">
+        <span class="total-label">Tổng cộng:</span>
+        <span class="total-price">{{ formatPrice(cart.total_price) }}</span>
+      </div>
+      <button class="view-all-btn" (click)="viewAll()">
+        Xem Tất Cả
+      </button>
+    </div>
+  </div>
+</div>
+
+

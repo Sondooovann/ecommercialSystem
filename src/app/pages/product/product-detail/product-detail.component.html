@@ -1,0 +1,153 @@
+<div class="product-detail-container">
+  <!-- Cart Notification -->
+  <div *ngIf="showCartMessage" class="cart-notification" [class.success]="cartMessage.includes('thành công')" [class.error]="!cartMessage.includes('thành công')">
+    {{ cartMessage }}
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <p>Đang tải sản phẩm...</p>
+  </div>
+
+  <div *ngIf="error && !loading" class="error-state">
+    <p>{{ error }}</p>
+    <button (click)="loadProductDetail()">Thử lại</button>
+    <button (click)="goBack()">Quay lại</button>
+  </div>
+
+  <div *ngIf="!loading && !error && product" class="product-detail-wrapper">
+
+    <!-- Main Content -->
+    <div class="product-detail">
+
+    <!-- Main Product Info -->
+    <div class="product-main">
+
+      <!-- Left: Images -->
+      <div class="product-images">
+        <div class="main-image">
+          <img [src]="selectedImage" [alt]="product.name" />
+        </div>
+        <div class="thumbnail-list" *ngIf="product.images && product.images.length > 0">
+          <div
+            *ngFor="let image of product.images"
+            class="thumbnail-item"
+            [class.active]="selectedImage === image.image_url"
+            (click)="selectImage(image.image_url)">
+            <img [src]="image.image_url" [alt]="product.name" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Product Info -->
+      <div class="product-info">
+
+        <!-- Product Name -->
+        <h1 class="product-name">{{ product.name }}</h1>
+
+        <!-- Rating & Sold -->
+        <div class="product-stats">
+          <div class="rating">
+            <span class="rating-score">{{ product.rating }}</span>
+            <span class="rating-stars">⭐</span>
+          </div>
+          <div class="divider"></div>
+          <div class="sold">
+            <span class="sold-count">{{ product.sold_count }}</span>
+            <span class="sold-text">Đã bán</span>
+          </div>
+        </div>
+        <!-- Price -->
+        <div class="price-section">
+          <div class="price-row">
+            <span class="original-price" *ngIf="getDiscountPercent() > 0">{{ getCurrentPrice() | number:'1.0-0' }}₫</span>
+            <span class="sale-price">{{ getCurrentSalePrice() | number:'1.0-0' }}₫</span>
+            <span class="discount-badge" *ngIf="getDiscountPercent() > 0">{{ getDiscountPercent() }}% GIẢM</span>
+          </div>
+        </div>
+
+        <div class="information">
+          <p>✅ Sản Phẩm Tặng Kèm Túi Giấy Xách Ngoài</p>
+          <p>🕛 Giao Hàng Miễn Phí Vận Chuyển Siêu Tốc Trong Thời Gian 30 Phút Tại : Thái Nguyên - Hà Nội - Đà Nẵng - TP Hồ Chí Minh</p>
+          <p>🌺 Thank You For Choosing</p>
+        </div>
+
+        <!-- Variants (if any) -->
+        <div class="variants-section" *ngIf="product.variants && product.variants.length > 0">
+          <label class="variant-label">Phân loại hàng</label>
+          <div class="variant-options">
+            <button
+              *ngFor="let variant of product.variants"
+              class="variant-option"
+              [class.active]="selectedVariant?.id === variant.id"
+              (click)="selectVariant(variant)">
+              <span *ngFor="let attr of variant.attribute_values; let last = last">
+                {{ attr.display_value }}<span *ngIf="!last"> - </span>
+              </span>
+            </button>
+          </div>
+          <p class="variant-hint" *ngIf="!selectedVariant">* Vui lòng chọn phân loại hàng</p>
+        </div>
+
+        <!-- Quantity -->
+        <div class="quantity-section">
+          <label class="quantity-label">Số lượng:</label>
+          <div class="quantity-controls">
+            <button class="quantity-btn" (click)="decreaseQuantity()" [disabled]="quantity <= 1">-</button>
+            <input type="number" class="quantity-input" [(ngModel)]="quantity" min="1" [max]="getCurrentStock()" />
+            <button class="quantity-btn" (click)="increaseQuantity()" [disabled]="quantity >= getCurrentStock()">+</button>
+          </div>
+          <span class="stock-info">{{ getCurrentStock() }} sản phẩm có sẵn</span>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button class="btn btn-add-cart" (click)="addToCart()">
+            <div class="prefix-icon" [innerHTML]="ICON_CART | safeHtml"></div>
+            Thêm Vào Giỏ Hàng
+          </button>
+          <button class="btn btn-buy-now" (click)="buyNow()">
+            Mua Ngay
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Product Description -->
+    <div class="product-description">
+<!--      <h2 class="section-title">CHI TIẾT SẢN PHẨM</h2>-->
+
+<!--      <div class="description-grid">-->
+<!--        <div class="description-row">-->
+<!--          <span class="label">Danh Mục</span>-->
+<!--          <span class="value">{{ product.category.name }}</span>-->
+<!--        </div>-->
+<!--        <div class="description-row">-->
+<!--          <span class="label">Kho</span>-->
+<!--          <span class="value">{{ product.stock }}</span>-->
+<!--        </div>-->
+<!--        <div class="description-row">-->
+<!--          <span class="label">Loại</span>-->
+<!--          <span class="value">{{ product.product_type }}</span>-->
+<!--        </div>-->
+<!--        <div class="description-row">-->
+<!--          <span class="label">Trạng thái</span>-->
+<!--          <span class="value">{{ product.status }}</span>-->
+<!--        </div>-->
+<!--      </div>-->
+
+      <h2 class="section-title">MÔ TẢ SẢN PHẨM</h2>
+      <div class="description-content">
+        <p>{{ product.description }}</p>
+      </div>
+    </div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar-right">
+      <jhi-top-selling></jhi-top-selling>
+    </aside>
+
+  </div>
+</div>

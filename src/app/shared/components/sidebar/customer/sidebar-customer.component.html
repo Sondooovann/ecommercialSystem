@@ -1,0 +1,23 @@
+<div class="sidebar">
+  <div *ngFor="let box of boxes" class="sidebar-box">
+    <div class="title">{{ box.title }}</div>
+    <ul>
+      <li *ngFor="let item of box.items">
+        <ng-container [ngSwitch]="item.type">
+          <a *ngSwitchCase="'link'" [routerLink]="item.link">{{ item.label }}</a>
+
+          <label *ngSwitchCase="'checkbox'">
+            <input type="checkbox" [(ngModel)]="selectedValues[item.label]" />
+            {{ item.label }}
+          </label>
+
+          <div *ngSwitchCase="'range'" class="range-box">
+            <label *ngIf="showRangeLabels">{{ item.label }}</label>
+            <input type="number" [(ngModel)]="minPrice" placeholder="Từ" /> -
+            <input type="number" [(ngModel)]="maxPrice" placeholder="Đến" />
+          </div>
+        </ng-container>
+      </li>
+    </ul>
+  </div>
+</div>

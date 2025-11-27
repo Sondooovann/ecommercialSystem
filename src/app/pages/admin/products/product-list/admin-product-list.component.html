@@ -1,0 +1,136 @@
+<div class="admin-product-list-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1>Quản lý sản phẩm</h1>
+      <p class="subtitle">Tổng số: {{ totalProducts }} sản phẩm</p>
+    </div>
+    <button class="btn-add" (click)="createProduct()">
+      <span class="icon" [innerHTML]="ICON_ADD | safeHtml"></span>
+      <span>Thêm sản phẩm</span>
+    </button>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-section">
+    <div class="search-box">
+      <span class="search-icon" [innerHTML]="ICON_SEARCH | safeHtml"></span>
+      <input
+        type="text"
+        [(ngModel)]="searchText"
+        (keyup.enter)="onSearch()"
+        placeholder="Tìm kiếm sản phẩm...">
+      <button class="search-btn" (click)="onSearch()">Tìm kiếm</button>
+    </div>
+
+    <div class="filter-group">
+      <label>Trạng thái:</label>
+      <select [(ngModel)]="selectedStatus" (change)="onFilterChange()">
+        <option value="all">Tất cả</option>
+        <option value="active">Đang bán</option>
+        <option value="inactive">Ngừng bán</option>
+        <option value="out_of_stock">Hết hàng</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Đang tải danh sách sản phẩm...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-state">
+    <p>{{ error }}</p>
+    <button class="retry-button" (click)="loadProducts()">Thử lại</button>
+  </div>
+
+  <!-- Products Table -->
+  <div *ngIf="!loading && !error" class="products-section">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Hình ảnh</th>
+            <th>Tên sản phẩm</th>
+            <th>Giá</th>
+            <th>Tồn kho</th>
+            <th>Trạng thái</th>
+            <th>Danh mục</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of filteredProducts">
+            <td class="product-image">
+              <img [src]="product.thumbnail || getPlaceholderImage()"
+                   [alt]="product.name"
+                   (error)="onImageError($event)">
+            </td>
+            <td class="product-name">
+              <p class="name">{{ product.name }}</p>
+              <p class="sku">ID: {{ product.id }}</p>
+            </td>
+            <td class="product-price">
+              <p class="price">{{ formatPrice(product.price) }}</p>
+              <p class="discounted" *ngIf="product.sale_price && parseFloat(product.sale_price) > 0 && parseFloat(product.sale_price) < parseFloat(product.price)">
+                {{ formatPrice(product.sale_price) }}
+              </p>
+            </td>
+            <td class="product-stock">
+              {{ product.stock }}
+            </td>
+            <td>
+              <span class="status-badge" [ngClass]="getStatusClass(product.status)">
+                {{ getStatusText(product.status) }}
+              </span>
+            </td>
+            <td class="product-category">
+              {{ product.category_name || 'N/A' }}
+            </td>
+            <td>
+              <div class="btn-actions"><span class="prefix-icon" [innerHTML]="ICON_VIEW | safeHtml"
+                                             (click)="viewProduct(product.id)"></span>
+                <span class="prefix-icon" [innerHTML]="ICON_EDIT | safeHtml" (click)="editProduct(product.id)"></span>
+                <span class="prefix-icon" [innerHTML]="ICON_DELETE | safeHtml" (click)="deleteProduct(product)"></span>
+              </div>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="filteredProducts.length === 0" class="empty-state">
+      <p>Không tìm thấy sản phẩm nào</p>
+      <button class="btn-add-empty" (click)="createProduct()">
+        <span class="icon" [innerHTML]="ICON_ADD | safeHtml"></span>
+        <span>Thêm sản phẩm đầu tiên</span>
+      </button>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="filteredProducts.length > 0 && totalPages > 1" class="pagination">
+      <button
+        class="page-btn"
+        [disabled]="currentPage === 1"
+        (click)="onPageChange(currentPage - 1)">
+        Trước
+      </button>
+
+      <div class="page-info">
+        Trang {{ currentPage }} / {{ totalPages }}
+      </div>
+
+      <button
+        class="page-btn"
+        [disabled]="currentPage === totalPages"
+        (click)="onPageChange(currentPage + 1)">
+        Sau
+      </button>
+    </div>
+  </div>
+</div>
+

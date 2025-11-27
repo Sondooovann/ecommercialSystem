@@ -1,0 +1,148 @@
+@import '../../../../../styles/scss/variables-base';
+
+:host {
+  display: block;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.header {
+  width: 100%;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $color-base;
+  color: white;
+  padding: 8px 30px;
+  box-sizing: border-box;
+  gap: 20px;
+
+  .header-left {
+    .welcome-text {
+      font-size: $font-size-sm;
+      font-weight: 400;
+    }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  .nav-link {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    font-size: $font-size-sm;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    position: relative;
+
+    &:hover {
+      color: white;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    &.active {
+      color: white;
+      background-color: rgba(255, 255, 255, 0.15);
+      font-weight: 600;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 12px;
+        right: 12px;
+        height: 2px;
+        background-color: white;
+      }
+    }
+  }
+}
+
+.auth-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    font-size: $font-size-sm;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  span {
+    font-weight: 500;
+    font-size: $font-size-sm;
+  }
+
+  button {
+    background: transparent;
+    border: 1px solid white;
+    border-radius: 5px;
+    color: white;
+    padding: 4px 12px;
+    cursor: pointer;
+    font-size: $font-size-xs;
+    transition: background 0.2s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .header {
+    padding: 8px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+
+    .header-right {
+      width: 100%;
+      justify-content: space-between;
+      gap: 16px;
+    }
+  }
+
+  .main-nav {
+    gap: 12px;
+    flex-wrap: wrap;
+
+    .nav-link {
+      padding: 4px 8px;
+      font-size: $font-size-xs;
+    }
+  }
+
+  .user-info,
+  .auth-links {
+    font-size: $font-size-xs;
+  }
+}

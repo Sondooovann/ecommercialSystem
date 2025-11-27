@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="logo-box">
+    <img class="image" src="assets/images/logo.png" alt="logo" />
+    <h2 class="shop-name">Thái Nguyên Xanh</h2>
+  </div>
+
+
+  <div class="search-section">
+    <div class="search-row">
+      <div class="box-search">
+        <input 
+          type="text" 
+          placeholder="Tìm kiếm sản phẩm..." 
+          [(ngModel)]="searchText"
+          (keyup.enter)="onSearch()"
+        />
+        <div class="prefix-icon" [innerHTML]="ICON_SEARCH | safeHtml" (click)="onSearch()"></div>
+      </div>
+
+      <div class="box-cart" (click)="goToCart()">
+        <div class="prefix-icon" [innerHTML]="ICON_CART | safeHtml"></div>
+        <p>Giỏ hàng</p>
+      </div>
+    </div>
+
+    <div class="quick-search">
+      <span class="label">Tìm kiếm nhanh:</span>
+      <div class="tags">
+        <button *ngFor="let keyword of quickKeywords" (click)="searchQuick(keyword)">
+          {{ keyword }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cart Modal -->
+<jhi-cart-modal *ngIf="showCartModal" (close)="closeCartModal()"></jhi-cart-modal>

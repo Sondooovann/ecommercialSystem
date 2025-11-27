@@ -1,0 +1,59 @@
+@import '../../../../../styles/scss/variables-base';
+
+.sidebar {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .sidebar-box {
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        margin: 8px 0;
+
+        a {
+          text-decoration: none;
+          color: #333;
+          font-weight: 500;
+          transition: color 0.2s;
+
+          &:hover {
+            color: #2b7a2b;
+          }
+        }
+
+        .checkbox-item {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 14px;
+          cursor: pointer;
+
+          input[type='checkbox'] {
+            accent-color: #2b7a2b;
+          }
+        }
+
+        .range-item {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+
+          input[type='range'] {
+            width: 100%;
+            accent-color: #2b7a2b;
+          }
+
+          .range-labels {
+            font-size: 13px;
+            color: #555;
+          }
+        }
+      }
+    }
+  }
+}

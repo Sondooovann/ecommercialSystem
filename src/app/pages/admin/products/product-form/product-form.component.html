@@ -1,0 +1,301 @@
+<div class="product-form-container">
+  <!-- Header -->
+  <div class="page-header">
+    <button class="back-button" (click)="goBack()">
+      <span class="icon" [innerHTML]="ICON_BACK | safeHtml"></span>
+      <span>Quay lại</span>
+    </button>
+    <h1>{{ isEditMode ? 'Chỉnh sửa sản phẩm' : 'Thêm sản phẩm mới' }}</h1>
+  </div>
+
+  <!-- Form -->
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <!-- Basic Information -->
+    <div class="form-section">
+      <h2>Thông tin cơ bản</h2>
+      
+      <div class="form-row">
+        <div class="form-group full-width">
+          <label>Tên sản phẩm <span class="required">*</span></label>
+          <input
+            type="text"
+            formControlName="name"
+            placeholder="Nhập tên sản phẩm"
+            [class.error]="productForm.get('name')?.invalid && productForm.get('name')?.touched">
+          <span class="error-message" *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched">
+            Vui lòng nhập tên sản phẩm (ít nhất 3 ký tự)
+          </span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Loại sản phẩm <span class="required">*</span></label>
+          <select 
+            formControlName="product_type" 
+            (change)="onProductTypeChange($event)"
+            [class.error]="productForm.get('product_type')?.invalid && productForm.get('product_type')?.touched">
+            <option value="">-- Chọn loại sản phẩm --</option>
+            <option *ngFor="let parent of parentCategories" [value]="parent.id">{{ parent.name }}</option>
+          </select>
+          <span class="error-message" *ngIf="productForm.get('product_type')?.invalid && productForm.get('product_type')?.touched">
+            Vui lòng chọn loại sản phẩm
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label>Danh mục <span class="required">*</span></label>
+          <select 
+            formControlName="category" 
+            [disabled]="!productForm.get('product_type')?.value || childCategories.length === 0"
+            [class.error]="productForm.get('category')?.invalid && productForm.get('category')?.touched">
+            <option value="">-- Chọn danh mục --</option>
+            <option *ngFor="let cat of childCategories" [value]="cat.id">{{ cat.name }}</option>
+          </select>
+          <span class="error-message" *ngIf="productForm.get('category')?.invalid && productForm.get('category')?.touched">
+            Vui lòng chọn danh mục
+          </span>
+          <span class="info-message" *ngIf="productForm.get('product_type')?.value && childCategories.length === 0">
+            Loại sản phẩm này chưa có danh mục con
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label>Trạng thái <span class="required">*</span></label>
+          <select formControlName="status">
+            <option *ngFor="let status of statusOptions" [value]="status.value">{{ status.label }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group full-width">
+          <label>Mô tả ngắn <span class="required">*</span></label>
+          <textarea
+            formControlName="short_description"
+            rows="2"
+            placeholder="Nhập mô tả ngắn về sản phẩm"
+            [class.error]="productForm.get('short_description')?.invalid && productForm.get('short_description')?.touched"></textarea>
+          <span class="error-message" *ngIf="productForm.get('short_description')?.invalid && productForm.get('short_description')?.touched">
+            Vui lòng nhập mô tả ngắn
+          </span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group full-width">
+          <label>Mô tả chi tiết</label>
+          <textarea
+            formControlName="description"
+            rows="5"
+            placeholder="Nhập mô tả chi tiết về sản phẩm"></textarea>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group checkbox-group">
+          <label>
+            <input type="checkbox" formControlName="featured">
+            <span>Sản phẩm nổi bật</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pricing & Stock -->
+    <div class="form-section">
+      <h2>Giá & Tồn kho</h2>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label>Giá gốc <span class="required">*</span></label>
+          <input
+            type="number"
+            formControlName="price"
+            placeholder="0"
+            [class.error]="productForm.get('price')?.invalid && productForm.get('price')?.touched">
+          <span class="error-message" *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched">
+            Vui lòng nhập giá hợp lệ
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label>Giá khuyến mãi</label>
+          <input
+            type="number"
+            formControlName="sale_price"
+            placeholder="0">
+        </div>
+
+        <div class="form-group">
+          <label>Tồn kho <span class="required">*</span></label>
+          <input
+            type="number"
+            formControlName="stock"
+            placeholder="0"
+            [class.error]="productForm.get('stock')?.invalid && productForm.get('stock')?.touched">
+          <span class="error-message" *ngIf="productForm.get('stock')?.invalid && productForm.get('stock')?.touched">
+            Vui lòng nhập số lượng hợp lệ
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attributes -->
+    <div class="form-section">
+      <div class="section-header">
+        <h2>Thuộc tính</h2>
+        <button type="button" class="btn-add-small" (click)="addAttribute()">
+          <span class="icon" [innerHTML]="ICON_ADD | safeHtml"></span>
+          <span>Thêm thuộc tính</span>
+        </button>
+      </div>
+
+      <div formArrayName="attributes">
+        <div *ngFor="let attribute of attributes.controls; let i = index" [formGroupName]="i" class="attribute-item">
+          <div class="attribute-header">
+            <h3>Thuộc tính #{{ i + 1 }}</h3>
+            <button type="button" class="btn-remove" (click)="removeAttribute(i)">
+              <span [innerHTML]="ICON_DELETE | safeHtml"></span>
+            </button>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tên thuộc tính <span class="required">*</span></label>
+              <input type="text" formControlName="name" placeholder="VD: Màu sắc, Kích thước">
+            </div>
+
+            <div class="form-group">
+              <label>Loại <span class="required">*</span></label>
+              <select formControlName="type">
+                <option *ngFor="let type of attributeTypes" [value]="type.value">{{ type.label }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="attribute-values">
+            <label>Giá trị <span class="required">*</span></label>
+            <div formArrayName="values">
+              <div *ngFor="let value of getAttributeValues(i).controls; let j = index" [formGroupName]="j" class="value-item">
+                <input type="text" formControlName="value" placeholder="Giá trị">
+                <input type="text" formControlName="display" placeholder="Tên hiển thị">
+                <button type="button" class="btn-remove-value" (click)="removeAttributeValue(i, j)">
+                  <span [innerHTML]="ICON_DELETE | safeHtml"></span>
+                </button>
+              </div>
+            </div>
+            <button type="button" class="btn-add-value" (click)="addAttributeValue(i)">
+              <span class="icon" [innerHTML]="ICON_ADD | safeHtml"></span>
+              <span>Thêm giá trị</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="attributes.length > 0" class="generate-variants">
+        <button type="button" class="btn-generate" (click)="generateVariants()">
+          Tạo biến thể từ thuộc tính
+        </button>
+      </div>
+    </div>
+
+    <!-- Variants -->
+    <div class="form-section" *ngIf="variants.length > 0">
+      <div class="section-header">
+        <h2>Biến thể sản phẩm ({{ variants.length }})</h2>
+        <button type="button" class="btn-add-small" (click)="addVariant()">
+          <span class="icon" [innerHTML]="ICON_ADD | safeHtml"></span>
+          <span>Thêm biến thể</span>
+        </button>
+      </div>
+
+      <div formArrayName="variants" class="variants-list">
+        <div *ngFor="let variant of variants.controls; let i = index" [formGroupName]="i" class="variant-item">
+          <div class="variant-header">
+            <h3>Biến thể #{{ i + 1 }}</h3>
+            <button type="button" class="btn-remove" (click)="removeVariant(i)">
+              <span [innerHTML]="ICON_DELETE | safeHtml"></span>
+            </button>
+          </div>
+
+          <div class="variant-attributes" *ngIf="variant.get('attributes')?.value && Object.keys(variant.get('attributes')?.value).length > 0">
+            <span *ngFor="let key of Object.keys(variant.get('attributes')?.value)" class="attribute-badge">
+              {{ key }}: {{ variant.get('attributes')?.value[key] }}
+            </span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>SKU <span class="required">*</span></label>
+              <input type="text" formControlName="sku" placeholder="VD: CHE-123">
+            </div>
+
+            <div class="form-group">
+              <label>Giá <span class="required">*</span></label>
+              <input type="number" formControlName="price" placeholder="0">
+            </div>
+
+            <div class="form-group">
+              <label>Giá KM</label>
+              <input type="number" formControlName="sale_price" placeholder="0">
+            </div>
+
+            <div class="form-group">
+              <label>Tồn kho <span class="required">*</span></label>
+              <input type="number" formControlName="stock" placeholder="0">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Images -->
+    <div class="form-section">
+      <h2>Hình ảnh sản phẩm</h2>
+      
+      <div class="image-upload-area">
+        <input
+          type="file"
+          id="imageInput"
+          accept="image/*"
+          multiple
+          (change)="onFileSelected($event)"
+          style="display: none;">
+        
+        <label for="imageInput" class="upload-label">
+          <span class="icon" [innerHTML]="ICON_IMAGE | safeHtml"></span>
+          <span class="text">Chọn hình ảnh</span>
+          <span class="hint">Hỗ trợ: JPG, PNG, WEBP</span>
+        </label>
+      </div>
+
+      <div class="image-preview-grid" *ngIf="images.length > 0">
+        <div *ngFor="let img of images; let i = index" class="image-preview-item" [class.primary]="i === primaryImageIndex">
+          <img [src]="img.preview" [alt]="'Preview ' + i">
+          <div class="image-overlay">
+            <button type="button" class="btn-set-primary" (click)="setPrimaryImage(i)" *ngIf="i !== primaryImageIndex" title="Đặt làm ảnh chính">
+              Ảnh chính
+            </button>
+            <span class="primary-badge" *ngIf="i === primaryImageIndex">Ảnh chính</span>
+            <button type="button" class="btn-remove-image" (click)="removeImage(i)" title="Xóa">
+              <span [innerHTML]="ICON_DELETE | safeHtml"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Actions -->
+    <div class="form-actions">
+      <button type="button" class="btn-cancel" (click)="goBack()">Hủy</button>
+      <button type="submit" class="btn-submit" [disabled]="loading">
+        {{ loading ? 'Đang xử lý...' : (isEditMode ? 'Cập nhật' : 'Thêm sản phẩm') }}
+      </button>
+    </div>
+  </form>
+</div>
+
+
+
+

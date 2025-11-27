@@ -1,0 +1,130 @@
+<div class="cart-container">
+<!--  &lt;!&ndash; Header &ndash;&gt;-->
+<!--  <div class="cart-header">-->
+<!--    <div class="header-left" (click)="goBack()">-->
+<!--      <div class="back-icon" [innerHTML]="ICON_BACK | safeHtml"></div>-->
+<!--      <h2>Giỏ Hàng Của Tôi</h2>-->
+<!--    </div>-->
+<!--  </div>-->
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Đang tải giỏ hàng...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <p>{{ error }}</p>
+    <button class="retry-btn" (click)="loadCart()">Thử lại</button>
+  </div>
+
+  <!-- Cart Content -->
+  <div *ngIf="!loading && !error" class="cart-content">
+    <!-- Empty Cart -->
+    <div *ngIf="cart && cart.total_items === 0" class="empty-cart">
+      <div class="empty-icon">🛒</div>
+      <h3>Giỏ hàng trống</h3>
+      <p>Hãy thêm sản phẩm vào giỏ hàng của bạn!</p>
+      <button class="shop-now-btn" (click)="goBack()">Mua sắm ngay</button>
+    </div>
+
+    <!-- Cart Items -->
+    <div *ngIf="cart && cart.total_items > 0" class="cart-items">
+      <!-- Cart Item List grouped by shop -->
+      <ng-container *ngFor="let shop of getGroupedByShop()">
+        <!-- Store Info -->
+        <div class="store-info">
+          <div class="store-checkbox">
+            <input type="checkbox" checked />
+          </div>
+          <div class="store-name">{{ shop.shop_name }}</div>
+        </div>
+
+        <!-- Items for this shop -->
+        <div *ngFor="let item of shop.items" class="cart-item">
+          <div class="item-checkbox">
+            <input type="checkbox" checked />
+          </div>
+
+          <div class="item-image">
+            <img
+              [src]="item.variant_details.image_url || getPlaceholderImage()"
+              [alt]="item.variant_details.product_name"
+              (error)="onImageError($event)"
+            />
+          </div>
+
+          <div class="item-info">
+            <h4 class="item-name">{{ item.variant_details.product_name }}</h4>
+            <p class="item-variant" *ngIf="item.variant_details.attributes.length > 0">
+              Phân loại:
+              <span *ngFor="let attr of item.variant_details.attributes; let last = last">
+                {{ attr.display_value }}<span *ngIf="!last">, </span>
+              </span>
+            </p>
+            <p class="item-sku">SKU: {{ item.variant_details.sku }}</p>
+
+            <div class="item-bottom">
+              <div class="item-price">{{ formatPrice(item.price) }}</div>
+
+            <div class="item-actions">
+              <div class="quantity-control">
+                <button
+                  class="qty-btn"
+                  (click)="updateQuantity(item, item.quantity - 1)"
+                  [disabled]="item.quantity <= 1"
+                >
+                  <span [innerHTML]="ICON_MINUS | safeHtml"></span>
+                </button>
+                <input
+                  type="text"
+                  class="qty-input"
+                  [value]="item.quantity"
+                  readonly
+                />
+                <button
+                  class="qty-btn"
+                  (click)="updateQuantity(item, item.quantity + 1)"
+                >
+                  <span [innerHTML]="ICON_PLUS | safeHtml"></span>
+                </button>
+              </div>
+
+              <button class="delete-btn" (click)="removeItem(item.id)">
+                <span [innerHTML]="ICON_TRASH | safeHtml"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <!-- Voucher Section for each shop -->
+        <div class="voucher-section">
+          <div class="voucher-icon">🎟️</div>
+          <span class="voucher-text">Voucher của {{ shop.shop_name }}</span>
+          <button class="voucher-select">Chọn hoặc nhập mã</button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div *ngIf="cart && cart.total_items > 0" class="bottom-bar">
+    <div class="select-all">
+      <input type="checkbox" id="selectAll" checked />
+      <label for="selectAll">Tất cả ({{ cart.total_items }})</label>
+    </div>
+
+    <div class="total-section">
+      <div class="total-label">Tổng thanh toán:</div>
+      <div class="total-price">{{ formatPrice(cart.total_price) }}</div>
+    </div>
+
+    <button class="checkout-btn" (click)="checkout()">
+      Mua Hàng ({{ cart.total_items }})
+    </button>
+  </div>
+</div>
+
+

@@ -1,0 +1,46 @@
+@import "../../../styles/scss/variables-base";
+
+:host {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.customer-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+
+  jhi-customer-header,
+  jhi-customer-search,
+  jhi-menu-navbar,
+  jhi-customer-breadcrumb {
+    width: 100%;
+  }
+
+  /* Khối bao toàn bộ phần sidebar + content */
+  .main-wrapper {
+    display: flex;
+    justify-content: center; /* căn giữa khối chính */
+    background-color: white;
+    padding: 30px 0;
+  }
+
+  /* Khối chứa sidebar + content (nằm giữa, chiếm 80%) */
+  .main-container {
+    display: flex;
+    width: 80%;
+    max-width: 1400px;
+    gap: 20px;
+  }
+
+  /* Content chính */
+  .content {
+    flex: 1;
+    background: #fff;
+    border-radius: 8px;
+    //padding: 25px 30px;
+  }
+}

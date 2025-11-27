@@ -1,0 +1,43 @@
+<div class="top-selling-container">
+  <div class="header">
+    <h3 class="title">🔥 Top Sản Phẩm Bán Chạy</h3>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading">
+    <p>Đang tải...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error && !loading" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Products List -->
+  <div *ngIf="!loading && !error" class="products-list">
+    <div
+      *ngFor="let product of products; let i = index"
+      class="product-item"
+      (click)="navigateToProduct(product.id)">
+
+      <div class="rank">
+        <span class="rank-number" [class.top-1]="i === 0" [class.top-2]="i === 1" [class.top-3]="i === 2">
+          {{ i + 1 }}
+        </span>
+      </div>
+
+      <div class="product-info">
+        <h4 class="product-name">{{ product.name }}</h4>
+        <p class="sold-count">
+          <span class="icon"></span>
+          Đã bán: <strong>{{ product.total_sold }}</strong>
+        </p>
+      </div>
+    </div>
+
+    <div *ngIf="products.length === 0" class="no-data">
+      <p>Chưa có dữ liệu</p>
+    </div>
+  </div>
+</div>
+

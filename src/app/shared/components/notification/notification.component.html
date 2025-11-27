@@ -1,0 +1,20 @@
+<div class="notification-container">
+  <div 
+    *ngFor="let notification of notifications"
+    class="notification notification-{{notification.type}}"
+    [@notificationAnimation]
+  >
+    <div class="notification-content">
+      <i class="bi {{ getIcon(notification.type) }} notification-icon"></i>
+      <span class="notification-message">{{ notification.message }}</span>
+    </div>
+    <button 
+      class="notification-close" 
+      (click)="closeNotification(notification.id)"
+      aria-label="Đóng thông báo"
+    >
+      <i class="bi bi-x"></i>
+    </button>
+  </div>
+</div>
+

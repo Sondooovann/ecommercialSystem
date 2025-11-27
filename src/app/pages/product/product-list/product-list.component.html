@@ -1,0 +1,93 @@
+<div class="main-container">
+  <aside class="sidebar">
+    <jhi-sidebar-customer [boxes]="sidebarBoxes"></jhi-sidebar-customer>
+  </aside>
+
+  <div class="content-area">
+    <!-- Search result info -->
+    <div *ngIf="searchQuery" class="search-result-info">
+      <p>Kết quả tìm kiếm cho: <strong>"{{ searchQuery }}"</strong></p>
+      <span class="result-count">{{ totalProducts }} sản phẩm</span>
+    </div>
+
+    <!-- Hộp filter -->
+    <div class="filter-box">
+
+      <div class="layout">
+        <div 
+          class="prefix-icon" 
+          [class.active]="viewMode === 'grid'"
+          [innerHTML]="ICON_GRID_HORIZONTAL | safeHtml"
+          (click)="setViewMode('grid')"
+          title="Xem dạng lưới">
+        </div>
+        <div 
+          class="prefix-icon" 
+          [class.active]="viewMode === 'list'"
+          [innerHTML]="ICON_GRID_VERTICAL | safeHtml"
+          (click)="setViewMode('list')"
+          title="Xem dạng danh sách">
+        </div>
+      </div>
+
+      <div class="sort">
+        <span>Sắp xếp:</span>
+        <select class="sort-select" [(ngModel)]="sortOption" (change)="onSortOptionChange()">
+          <option value="created_at:desc">Mới nhất</option>
+          <option value="price:asc">Giá tăng dần</option>
+          <option value="price:desc">Giá giảm dần</option>
+          <option value="name:asc">Tên sản phẩm (A-Z)</option>
+          <option value="sold_count:desc">Bán chạy nhất</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Loading state -->
+    <div *ngIf="loading" class="loading-state">
+      <p>Đang tải sản phẩm...</p>
+    </div>
+
+    <!-- Error state -->
+    <div *ngIf="error && !loading" class="error-state">
+      <p>{{ error }}</p>
+      <button (click)="loadProducts()">Thử lại</button>
+    </div>
+
+    <!-- Product grid -->
+    <div *ngIf="!loading && !error" class="product-container" [class.grid-view]="viewMode === 'grid'" [class.list-view]="viewMode === 'list'">
+      <jhi-product-item 
+        *ngFor="let product of products" 
+        [product]="{
+          id: product.id,
+          name: product.name,
+          price: +product.sale_price,
+          image: product.thumbnail,
+          description: product.short_description
+        }"
+        [type]="viewMode">
+      </jhi-product-item>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="!loading && !error && totalPages > 1" class="pagination">
+      <button 
+        class="page-btn" 
+        [disabled]="currentPage === 1"
+        (click)="onPageChange(currentPage - 1)">
+        Trước
+      </button>
+      
+      <span class="page-info">
+        Trang {{ currentPage }} / {{ totalPages }} 
+        <span class="total-info">({{ totalProducts }} sản phẩm)</span>
+      </span>
+      
+      <button 
+        class="page-btn" 
+        [disabled]="currentPage === totalPages"
+        (click)="onPageChange(currentPage + 1)">
+        Sau
+      </button>
+    </div>
+  </div>
+</div>

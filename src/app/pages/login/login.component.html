@@ -1,0 +1,115 @@
+<div class="login-container d-flex justify-content-center align-items-center">
+  <div class="left-container w-50">
+    <div class="row mb-5">
+      <div class="col-12 d-flex justify-content-center">
+        <!-- <img src="/assets/images/sds-logo.svg" alt="SDS logo" class="company-logo" /> -->
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-12 d-flex justify-content-center">
+        <h1 class="form-title">ĐĂNG NHẬP TÀI KHOẢN</h1>
+      </div>
+    </div>
+
+    <form (ngSubmit)="login()" [formGroup]="loginForm">
+        <div class="row mb-4">
+          <div class="col-12 d-flex justify-content-center">
+            <div class="custom-auth-input">
+              <label for="email">Tên đăng nhập</label>
+              <div class="prefix-icon" [innerHTML]="ICON_USER | safeHtml"></div>
+              <input
+                type="text"
+                id="email"
+                placeholder=""
+                formControlName="email"
+                data-cy="email"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col-12 d-flex justify-content-center">
+            <div class="custom-auth-input">
+              <label for="password">Mật khẩu</label>
+              <div class="prefix-icon" [innerHTML]="ICON_LOCK | safeHtml"></div>
+              <input
+                [type]="passwordVisible ? 'text' : 'password'"
+                id="password"
+                placeholder=""
+                formControlName="password"
+                data-cy="password"
+              />
+              <button
+                class="show-password"
+                type="button"
+                (click)="showPassword($event)"
+                [innerHTML]="(passwordVisible ? ICON_EYE_SLASH : ICON_EYE) | safeHtml"
+              ></button>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col-12 d-flex justify-content-center align-items-center">
+            <div class="custom-auth-row">
+              <!--              <div class="remember-me">-->
+              <!--                <div class="form-check">-->
+              <!--&lt;!&ndash;                  <label class="form-check-label" for="rememberMe">&ndash;&gt;-->
+              <!--&lt;!&ndash;                    <input class="form-check-input" type="checkbox" name="rememberMe" id="rememberMe" formControlName="rememberMe" />&ndash;&gt;-->
+              <!--&lt;!&ndash;                    <span class="" jhiTranslate="login.form.rememberme">Remember me</span>&ndash;&gt;-->
+              <!--&lt;!&ndash;                  </label>&ndash;&gt;-->
+              <!--                </div>-->
+              <!--              </div>-->
+              <div class="forgot-password">
+                <a>Quên mật khẩu</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+          <div class="custom-auth-row">
+            <button class="login-button" data-cy="submit">Đăng nhập</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="row">
+      <div class="col-12 d-flex justify-content-center gap-1">
+        <span>Bạn chưa có tài khoản?</span>
+        <a class="color-base fw-semibold" [href]="REGISTER_ROUTE">Đăng ký</a>
+      </div>
+    </div>
+  </div>
+  <div class="right-container w-50">
+    <div class="row">
+      <div class="col-12 py-5">
+        <img src="/assets/images/login/svg/thumbnail.svg" alt="Login thumbnail" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="footer-title mb-3">Thái Nguyên Xanh – Giải pháp mua sắm thông minh cho mọi nhà</div>
+        <div class="footer-info mb-2">
+          <span [innerHTML]="ICON_LOCATION | safeHtml"></span>
+          <span>Đại học Công nghiệp Hà Nội</span>
+        </div>
+        <div class="footer-info mb-2">
+          <span [innerHTML]="ICON_LOCATION | safeHtml"></span>
+          <span>Hanoi University of Industry</span>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <div class="footer-info mb-2">
+            <span [innerHTML]="ICON_MAIL | safeHtml"></span>
+            <span>info&#64;haui.vn</span>
+          </div>
+          <div class="footer-info mb-2">
+            <span [innerHTML]="ICON_PHONE | safeHtml"></span>
+            <span>0123 456 789 - 1900 00 00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="right-bg"></div>
+</div>

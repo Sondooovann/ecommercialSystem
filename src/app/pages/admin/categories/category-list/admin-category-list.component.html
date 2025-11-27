@@ -1,0 +1,274 @@
+<div class="admin-category-list-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1>Quản lý danh mục</h1>
+      <p class="subtitle">Tổng số: {{ categories.length }} danh mục</p>
+    </div>
+    <button class="btn-add" (click)="openCreateModal()">
+      <span class="icon" [innerHTML]="ICON_ADD | safeHtml"></span>
+      <span>Thêm danh mục</span>
+    </button>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-section">
+    <div class="search-box">
+      <span class="search-icon" [innerHTML]="ICON_SEARCH | safeHtml"></span>
+      <input
+        type="text"
+        [(ngModel)]="searchText"
+        (keyup.enter)="onSearch()"
+        placeholder="Tìm kiếm danh mục...">
+      <button class="search-btn" (click)="onSearch()">Tìm kiếm</button>
+    </div>
+
+    <div class="filter-group">
+      <label>Trạng thái:</label>
+      <select [(ngModel)]="selectedStatus" (change)="onFilterChange()">
+        <option value="all">Tất cả</option>
+        <option value="active">Hoạt động</option>
+        <option value="inactive">Không hoạt động</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <button class="btn-toggle-view" (click)="toggleViewMode()">
+        {{ showAsTree ? 'Hiển thị dạng bảng' : 'Hiển thị dạng cây' }}
+      </button>
+      
+      <button *ngIf="showAsTree" class="btn-expand-all" (click)="expandAllParentNodes()">
+        Mở rộng tất cả
+      </button>
+      
+      <button *ngIf="showAsTree" class="btn-collapse-all" (click)="collapseAllNodes()">
+        Thu gọn tất cả
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Đang tải danh sách danh mục...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-state">
+    <p>{{ error }}</p>
+    <button class="retry-button" (click)="loadCategories()">Thử lại</button>
+  </div>
+
+  <!-- Categories Table/Tree -->
+  <div *ngIf="!loading && !error" class="categories-section">
+    <!-- Table View -->
+    <div *ngIf="!showAsTree" class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Tên danh mục</th>
+            <th>Danh mục cha</th>
+            <th>Số danh mục con</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let category of filteredCategories">
+            <td>{{ category.id }}</td>
+            <td class="category-name">
+              <strong>{{ category.name }}</strong>
+              <p class="description" *ngIf="category.description">{{ category.description }}</p>
+            </td>
+            <td>{{ getCategoryName(category.parent) }}</td>
+            <td class="text-center">{{ getChildrenCount(category.id) }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="getStatusClass(category.status)">
+                {{ getStatusText(category.status) }}
+              </span>
+            </td>
+            <td>
+              <div class="btn-actions">
+                <span class="prefix-icon" [innerHTML]="ICON_EDIT | safeHtml" 
+                      (click)="openEditModal(category)"
+                      title="Chỉnh sửa"></span>
+                <span class="prefix-icon" [innerHTML]="ICON_DELETE | safeHtml" 
+                      (click)="deleteCategory(category)"
+                      title="Xóa"></span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tree View -->
+    <div *ngIf="showAsTree" class="tree-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Danh mục (dạng cây)</th>
+            <th width="120">Số danh mục con</th>
+            <th width="150">Trạng thái</th>
+            <th width="120">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let category of getTreeWithExpandState()" class="tree-row" [class.has-children]="hasChildren(category.id)">
+            <td class="category-name-tree">
+              <div class="tree-item" [style.padding-left.px]="(category.level || 0) * 30">
+                <!-- Expand/Collapse Button -->
+                <button 
+                  *ngIf="hasChildren(category.id)" 
+                  class="expand-btn"
+                  (click)="toggleNode(category.id)">
+                  <svg *ngIf="isExpanded(category.id)" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <svg *ngIf="!isExpanded(category.id)" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                
+                <!-- Spacer for items without children -->
+                <span *ngIf="!hasChildren(category.id)" class="expand-spacer"></span>
+                
+                <!-- Tree Branch Indicator -->
+                <span class="tree-branch" *ngIf="category.level && category.level > 0">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M2 2V10H10" stroke="#ccc" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                
+                <!-- Folder Icon -->
+                <span class="folder-icon" [class.parent]="hasChildren(category.id)">
+                  <svg *ngIf="hasChildren(category.id)" width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+                    <path d="M1.5 3C1.5 2.17157 2.17157 1.5 3 1.5H6L7.5 3H15C15.8284 3 16.5 3.67157 16.5 4.5V14.25C16.5 15.0784 15.8284 15.75 15 15.75H3C2.17157 15.75 1.5 15.0784 1.5 14.25V3Z"/>
+                  </svg>
+                  <svg *ngIf="!hasChildren(category.id)" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor">
+                    <path d="M1.5 3C1.5 2.17157 2.17157 1.5 3 1.5H6L7.5 3H15C15.8284 3 16.5 3.67157 16.5 4.5V14.25C16.5 15.0784 15.8284 15.75 15 15.75H3C2.17157 15.75 1.5 15.0784 1.5 14.25V3Z" stroke-width="1.5"/>
+                  </svg>
+                </span>
+                
+                <!-- Category Name -->
+                <div class="category-info">
+                  <strong class="name">{{ category.name }}</strong>
+                  <p class="description" *ngIf="category.description">{{ category.description }}</p>
+                </div>
+              </div>
+            </td>
+            <td class="text-center">
+              <span class="badge-count" *ngIf="hasChildren(category.id)">{{ getChildrenCount(category.id) }}</span>
+              <span *ngIf="!hasChildren(category.id)" class="text-muted">-</span>
+            </td>
+            <td>
+              <span class="status-badge" [ngClass]="getStatusClass(category.status)">
+                {{ getStatusText(category.status) }}
+              </span>
+            </td>
+            <td>
+              <div class="btn-actions">
+                <span class="prefix-icon" [innerHTML]="ICON_EDIT | safeHtml" 
+                      (click)="openEditModal(category)"
+                      title="Chỉnh sửa"></span>
+                <span class="prefix-icon" [innerHTML]="ICON_DELETE | safeHtml" 
+                      (click)="deleteCategory(category)"
+                      title="Xóa"></span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="filteredCategories.length === 0" class="empty-state">
+      <p>Không tìm thấy danh mục nào</p>
+      <button class="btn-add-empty" (click)="openCreateModal()">
+        <span class="icon" [innerHTML]="ICON_ADD | safeHtml"></span>
+        <span>Thêm danh mục đầu tiên</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Create/Edit -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ modalMode === 'create' ? 'Thêm danh mục mới' : 'Chỉnh sửa danh mục' }}</h2>
+      <button class="btn-close" (click)="closeModal()">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <form (ngSubmit)="submitForm()">
+        <div class="form-group">
+          <label for="categoryName">Tên danh mục <span class="required">*</span></label>
+          <input
+            type="text"
+            id="categoryName"
+            [(ngModel)]="formData.name"
+            name="name"
+            placeholder="Nhập tên danh mục"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="categoryDescription">Mô tả</label>
+          <textarea
+            id="categoryDescription"
+            [(ngModel)]="formData.description"
+            name="description"
+            rows="3"
+            placeholder="Nhập mô tả cho danh mục"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="categoryParent">Danh mục cha</label>
+          <select
+            id="categoryParent"
+            [(ngModel)]="formData.parent"
+            name="parent">
+            <option value="">-- Không có (danh mục gốc) --</option>
+            <option *ngFor="let cat of getParentCategories()" 
+                    [value]="cat.id"
+                    [disabled]="selectedCategory && cat.id === selectedCategory.id">
+              {{ cat.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="categoryImage">Hình ảnh</label>
+          <input
+            type="file"
+            id="categoryImage"
+            (change)="onImageSelected($event)"
+            accept="image/*">
+          <small class="form-text">Chọn hình ảnh cho danh mục (tùy chọn)</small>
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              [(ngModel)]="formData.is_active"
+              name="is_active">
+            <span>Trạng thái hoạt động</span>
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" (click)="closeModal()">
+            Hủy
+          </button>
+          <button type="submit" class="btn-submit">
+            {{ modalMode === 'create' ? 'Tạo mới' : 'Cập nhật' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,129 @@
+@import '../../../../styles/scss/variables-base';
+
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  padding: 20px;
+  gap: 40px;
+}
+
+.image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: -20px;
+}
+
+.search-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.box-search {
+  display: flex;
+  align-items: center;
+  border: 1px solid $color-base;
+  border-radius: 25px;
+  padding: 5px 15px;
+  background: white;
+  width: 700px;
+  max-width: 90%;
+}
+
+.box-search input {
+  border: none;
+  outline: none;
+  padding: 8px 10px;
+  font-size: 14px;
+  flex: 1;
+}
+
+.prefix-icon {
+  margin-left: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.box-cart {
+  display: flex;
+  align-items: center;
+  background: $color-error-400;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.box-cart:hover {
+  background: darken($color-error-400, 5%);
+}
+
+.box-cart p {
+  margin: 0 0 0 6px;
+  font-size: 14px;
+}
+
+.quick-search {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.quick-search .label {
+  font-weight: 600;
+  color: #333;
+}
+
+.quick-search .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.quick-search .tags button {
+  font-style: italic;
+  border: none;
+  background: $color-success-200;
+  border-radius: 4px;
+  padding: 5px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #068100;
+  white-space: nowrap;
+  transition: all 0.2s ease-in-out;
+}
+
+.quick-search .tags button:hover {
+  background: $color-success-300;
+}
+
+.logo-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.shop-name {
+  font-family: 'Playfair Display', serif; // hoặc Pacifico, Montserrat,...
+  font-size: 22px;
+  font-weight: 600;
+  color: #0a7b2c;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  letter-spacing: 1px;
+}

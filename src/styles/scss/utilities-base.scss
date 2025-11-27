@@ -1,0 +1,307 @@
+// text-color
+.text-blue-500 {
+  color: $color-blue-500;
+}
+
+.text-blue-600 {
+  color: $color-blue-600;
+}
+
+.text-gray-100 {
+  color: $color-gray-100;
+}
+
+.text-gray-200 {
+  color: $color-gray-200;
+}
+
+.text-gray-300 {
+  color: $color-gray-300;
+}
+
+.text-gray-400 {
+  color: $color-gray-400;
+}
+
+.text-gray-500 {
+  color: $color-gray-500;
+}
+
+.text-gray-600 {
+  color: $color-gray-600;
+}
+
+.text-gray-700 {
+  color: $color-gray-700;
+}
+
+.text-gray-800 {
+  color: $color-gray-800;
+}
+
+.text-gray-900 {
+  color: $color-gray-900;
+}
+
+// hover-text-color
+.hover\:text-blue-500:hover {
+  color: $color-blue-500;
+}
+
+.hover\:text-blue-600:hover {
+  color: $color-blue-600;
+}
+
+// type-pointer
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-move {
+  cursor: move;
+}
+
+// background
+.bg-app {
+  background: $color-app;
+}
+
+.bg-none {
+  background: none;
+}
+
+.bg-gray-100 {
+  background-color: $color-gray-100;
+}
+
+.bg-gray-200 {
+  background-color: $color-gray-200;
+}
+
+.bg-red-500 {
+  background-color: $color-red-500;
+}
+
+.bg-green-100 {
+  background-color: $color-green-100;
+}
+
+.bg-green-200 {
+  background-color: $color-green-200;
+}
+
+.bg-green-300 {
+  background-color: $color-green-300;
+}
+
+.bg-green-400 {
+  background-color: $color-green-400;
+}
+
+.bg-green-500 {
+  background-color: $color-green-500;
+}
+
+.bg-teal-100 {
+  background-color: $color-teal-100;
+}
+
+.bg-teal-200 {
+  background-color: $color-teal-200;
+}
+
+.bg-teal-300 {
+  background-color: $color-teal-300;
+}
+
+.bg-teal-400 {
+  background-color: $color-teal-400;
+}
+
+.bg-teal-500 {
+  background-color: $color-teal-500;
+}
+
+.bg-teal-600 {
+  background-color: $color-teal-600;
+}
+
+.bg-teal-700 {
+  background-color: $color-teal-700;
+}
+
+.bg-teal-800 {
+  background-color: $color-teal-800;
+}
+
+.bg-teal-900 {
+  background-color: $color-teal-900;
+}
+
+.bg-blue-500 {
+  background-color: $color-blue-500;
+}
+
+.bg-blue-600 {
+  background-color: $color-blue-600;
+}
+
+.bg-blue-700 {
+  background-color: $color-blue-700;
+}
+
+.bg-yellow-500 {
+  background-color: $color-yellow-500;
+}
+
+.bg-green-500 {
+  background-color: $color-green-500;
+}
+
+.disable\:bg-teal-600:disabled {
+  background-color: $color-teal-600;
+}
+
+// hover-btn-background
+
+.hover\:bg-teal-600:hover {
+  background-color: $color-teal-600;
+}
+
+.hover\:bg-teal-700:hover {
+  background-color: $color-teal-700;
+}
+
+.hover\:bg-app:hover {
+  background: $color-app;
+}
+
+.hover\:bg-blue-600:hover {
+  background-color: $color-blue-600;
+}
+
+.hover\:bg-red-600:hover {
+  background-color: $color-red-600;
+}
+
+.hover\:bg-yellow-600:hover {
+  background-color: $color-yellow-600;
+}
+
+.hover\:bg-green-600:hover {
+  background-color: $color-green-600;
+}
+// text-size
+.text-xs {
+  font-size: $font-size-xs;
+}
+
+.text-sm {
+  font-size: $font-size-sm;
+}
+
+.text-md {
+  font-size: $font-size-md;
+}
+
+.text-lg {
+  font-size: $font-size-lg;
+}
+
+.text-xl {
+  font-size: $font-size-xl;
+}
+
+.text-xxl {
+  font-size: $font-size-xxl;
+}
+
+// border
+.border-2px {
+  border-width: 2px;
+}
+
+.border-dashed {
+  border-style: dashed !important;
+}
+
+.border-gray-400 {
+  border-color: $color-gray-400;
+}
+
+.border-gray-600 {
+  border-color: $color-gray-600;
+}
+
+.border-blue-500 {
+  border-color: $color-blue-500;
+}
+
+.hover\:border-blue-600:hover {
+  border-color: $color-blue-600;
+}
+
+.hover\:border-green-400:hover {
+  border-color: $color-green-400;
+}
+
+.hover\:border-blue-400:hover {
+  border-color: $color-blue-400;
+}
+
+.hover\:border-purple-400:hover {
+  border-color: $color-purple-400;
+}
+
+// status
+.text-complete {
+  color: $color-text-complete;
+}
+
+.bg-complete {
+  background-color: $color-bg-complete;
+}
+
+.text-confirm {
+  color: $color-text-confirm;
+}
+
+.bg-confirm {
+  background-color: $color-bg-confirm;
+}
+
+.text-processing {
+  color: $color-text-processing;
+}
+
+.bg-processing {
+  background-color: $color-bg-processing;
+}
+
+// height
+.h-min-screen {
+  min-height: 100vh;
+}
+
+$animation-duration: 0.5s;
+$animation-delay: 0.05s;
+$animation-ease: ease-in-out;
+$initial-transform: translateY(20px);
+
+.fade-in {
+  opacity: 0;
+  transform: $initial-transform;
+  animation: fade-in-up $animation-duration $animation-delay $animation-ease forwards;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: $initial-transform;
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

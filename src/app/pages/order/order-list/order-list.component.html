@@ -1,0 +1,155 @@
+<div class="order-list-container">
+  <!-- Header -->
+  <div class="order-header">
+    <div class="header-left" (click)="goBack()">
+      <div class="back-icon" [innerHTML]="ICON_BACK | safeHtml"></div>
+      <h2>Đơn Hàng Của Tôi</h2>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="order-tabs">
+    <button 
+      class="tab-item" 
+      [class.active]="selectedTab === 'all'"
+      (click)="selectTab('all')"
+    >
+      Tất cả
+    </button>
+    <button 
+      class="tab-item" 
+      [class.active]="selectedTab === 'pending'"
+      (click)="selectTab('pending')"
+    >
+      Chờ xác nhận
+    </button>
+    <button 
+      class="tab-item" 
+      [class.active]="selectedTab === 'processing'"
+      (click)="selectTab('processing')"
+    >
+      Đang xử lý
+    </button>
+    <button 
+      class="tab-item" 
+      [class.active]="selectedTab === 'shipped'"
+      (click)="selectTab('shipped')"
+    >
+      Đang giao
+    </button>
+    <button 
+      class="tab-item" 
+      [class.active]="selectedTab === 'delivered'"
+      (click)="selectTab('delivered')"
+    >
+      Đã giao
+    </button>
+    <button 
+      class="tab-item" 
+      [class.active]="selectedTab === 'cancelled'"
+      (click)="selectTab('cancelled')"
+    >
+      Đã hủy
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Đang tải đơn hàng...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <p>{{ error }}</p>
+    <button class="retry-btn" (click)="loadOrders()">Thử lại</button>
+  </div>
+
+  <!-- Orders List -->
+  <div *ngIf="!loading && !error" class="orders-content">
+    <!-- Empty State -->
+    <div *ngIf="orders.length === 0" class="empty-orders">
+      <div class="empty-icon">📦</div>
+      <h3>Chưa có đơn hàng nào</h3>
+      <p>Hãy khám phá và đặt hàng ngay!</p>
+      <button class="shop-now-btn" (click)="goBack()">Mua sắm ngay</button>
+    </div>
+
+    <!-- Orders List -->
+    <div *ngIf="orders.length > 0" class="orders-list">
+      <div *ngFor="let order of orders" class="order-card" (click)="viewOrderDetail(order.id)">
+        <!-- Order Header -->
+        <div class="order-card-header">
+          <div class="order-info">
+            <span class="order-id">Đơn hàng #{{ order.id }}</span>
+            <span class="order-date">{{ formatDate(order.created_at) }}</span>
+          </div>
+          <span class="order-status" [ngClass]="getStatusClass(order.order_status)">
+            {{ getStatusText(order.order_status) }}
+          </span>
+        </div>
+
+        <!-- Order Items -->
+        <div class="order-items">
+          <div class="order-item">
+            <div class="item-image">
+              <img 
+                [src]="order.first_product.image || getPlaceholderImage()" 
+                [alt]="order.first_product.name"
+                (error)="onImageError($event)"
+              />
+            </div>
+            <div class="item-info">
+              <h4 class="item-name">{{ order.first_product.name }}</h4>
+              <div class="item-bottom">
+                <span class="item-quantity">x{{ order.first_product.quantity }}</span>
+                <span class="more-items" *ngIf="order.first_product.more_items">
+                  +{{ order.items_count - 1 }} sản phẩm khác
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Footer -->
+        <div class="order-card-footer">
+          <div class="footer-left">
+            <div class="footer-info">
+              <span class="payment-method">
+                {{ order.payment_method === 'cod' ? 'COD' : order.payment_method === 'e_wallet' ? 'Ví điện tử' : 'Online' }}
+              </span>
+              <span class="items-count">{{ order.items_count }} sản phẩm</span>
+            </div>
+          </div>
+          <div class="footer-right">
+            <span class="total-label">Tổng cộng:</span>
+            <span class="total-amount">{{ formatPrice(order.total_amount) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div *ngIf="!loading && !error && totalPages > 1" class="pagination">
+        <button 
+          class="page-btn" 
+          [disabled]="currentPage === 1"
+          (click)="onPageChange(currentPage - 1)">
+          ‹ Trước
+        </button>
+        
+        <span class="page-info">
+          Trang {{ currentPage }} / {{ totalPages }} 
+          <span class="total-info">({{ totalOrders }} đơn hàng)</span>
+        </span>
+        
+        <button 
+          class="page-btn" 
+          [disabled]="currentPage === totalPages"
+          (click)="onPageChange(currentPage + 1)">
+          Sau ›
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

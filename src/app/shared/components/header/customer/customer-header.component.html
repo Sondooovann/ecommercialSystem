@@ -1,0 +1,31 @@
+<div class="header">
+  <div class="header-left">
+    <span class="welcome-text">Thái Nguyên Xanh kính chào quý khách</span>
+  </div>
+
+  <div class="header-right">
+    <nav class="main-nav">
+      <a routerLink="/buyer/about-us" routerLinkActive="active" class="nav-link">
+        Về Chúng Tôi
+      </a>
+      <a routerLink="/buyer/agency" routerLinkActive="active" class="nav-link">
+        Đại Lý
+      </a>
+      <a routerLink="/buyer/orders" routerLinkActive="active" class="nav-link" *ngIf="isAuthenticated">
+        Đơn Hàng
+      </a>
+    </nav>
+
+    @if (isAuthenticated) {
+      <div class="user-info">
+        <span>Xin chào! {{user?.full_name}}</span>
+        <button (click)="logout()">Đăng xuất</button>
+      </div>
+    } @else {
+      <div class="auth-links">
+        <a routerLink="/login">Đăng nhập</a> |
+        <a routerLink="/register">Đăng ký</a>
+      </div>
+    }
+  </div>
+</div>

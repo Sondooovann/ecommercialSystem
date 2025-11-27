@@ -1,0 +1,152 @@
+<div class="about-us-container">
+  
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Về Chúng Tôi</h1>
+      <p class="hero-subtitle">Hành trình 20 năm mang hương vị chè Thái Nguyên đến mọi nhà</p>
+    </div>
+  </section>
+
+  <!-- Story Section -->
+  <section class="section story-section">
+    <div class="container">
+      <div class="story-content">
+        <div class="story-text">
+          <h2 class="section-title">Câu Chuyện Của Chúng Tôi</h2>
+          <div class="story-paragraphs">
+            <p>
+              <strong>Chè Thái Nguyên Xanh</strong> được thành lập từ năm 2003, bắt nguồn từ tình yêu và niềm đam mê 
+              với hương vị chè truyền thống của vùng đất Thái Nguyên. Chúng tôi tự hào là một trong những đơn vị 
+              tiên phong trong việc đưa sản phẩm chè Thái Nguyên đặc sản đến với người tiêu dùng trong và ngoài nước.
+            </p>
+            <p>
+              Với hơn 20 năm kinh nghiệm, chúng tôi đã xây dựng được mối quan hệ bền vững với các hợp tác xã 
+              trồng chè tại Tân Cương - vùng đất nổi tiếng với những đồi chè xanh mướt và khí hậu lý tưởng 
+              cho cây chè phát triển.
+            </p>
+            <p>
+              Mỗi sản phẩm của chúng tôi đều được tuyển chọn kỹ lưỡng từ những búp chè non tươi ngon nhất, 
+              qua quy trình chế biến truyền thống kết hợp với công nghệ hiện đại, đảm bảo giữ trọn hương vị 
+              đặc trưng của chè Thái Nguyên.
+            </p>
+          </div>
+        </div>
+        <div class="story-image">
+          <div class="image-placeholder">
+            <span class="placeholder-text">🍵<br>Vườn Chè<br>Thái Nguyên</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Milestones Section -->
+  <section class="section milestones-section">
+    <div class="container">
+      <h2 class="section-title">Hành Trình Phát Triển</h2>
+      <div class="timeline">
+        <div *ngFor="let milestone of milestones; let i = index" 
+             class="timeline-item" 
+             [class.left]="i % 2 === 0"
+             [class.right]="i % 2 !== 0">
+          <div class="timeline-content">
+            <div class="year">{{ milestone.year }}</div>
+            <h3 class="milestone-title">{{ milestone.title }}</h3>
+            <p class="milestone-description">{{ milestone.description }}</p>
+          </div>
+          <div class="timeline-dot"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class="section values-section">
+    <div class="container">
+      <h2 class="section-title">Giá Trị Cốt Lõi</h2>
+      <p class="section-subtitle">Những giá trị định hướng mọi hoạt động của chúng tôi</p>
+      
+      <div class="values-grid">
+        <div *ngFor="let value of values" class="value-card">
+          <div class="value-icon">{{ value.icon }}</div>
+          <h3 class="value-title">{{ value.title }}</h3>
+          <p class="value-description">{{ value.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission Vision Section -->
+  <section class="section mission-vision-section">
+    <div class="container">
+      <div class="mission-vision-grid">
+        <div class="mission-card">
+          <div class="card-icon">🎯</div>
+          <h3 class="card-title">Sứ Mệnh</h3>
+          <p class="card-description">
+            Mang đến cho khách hàng những sản phẩm chè Thái Nguyên chất lượng cao nhất, 
+            giữ gìn và phát huy giá trị văn hóa trà đạo Việt Nam, đồng thời đóng góp 
+            vào sự phát triển bền vững của cộng đồng người trồng chè địa phương.
+          </p>
+        </div>
+        <div class="vision-card">
+          <div class="card-icon">👁️</div>
+          <h3 class="card-title">Tầm Nhìn</h3>
+          <p class="card-description">
+            Trở thành thương hiệu chè Thái Nguyên hàng đầu Việt Nam, được người tiêu dùng 
+            trong và ngoài nước tin tưởng lựa chọn. Đưa sản phẩm chè Việt Nam vươn ra 
+            thế giới, góp phần nâng tầm vị thế của chè Việt trên thị trường quốc tế.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="section stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number">20+</div>
+          <div class="stat-label">Năm Kinh Nghiệm</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">50+</div>
+          <div class="stat-label">Loại Sản Phẩm</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">10,000+</div>
+          <div class="stat-label">Khách Hàng</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">100+</div>
+          <div class="stat-label">Đại Lý</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="cta-title">Trải Nghiệm Sản Phẩm Của Chúng Tôi</h2>
+        <p class="cta-description">
+          Khám phá bộ sưu tập chè Thái Nguyên đặc sản hoặc tìm đại lý gần bạn
+        </p>
+        <div class="cta-buttons">
+          <button class="btn-primary" (click)="goToProducts()">
+            Xem Sản Phẩm
+          </button>
+          <button class="btn-outline" (click)="goToAgency()">
+            Tìm Đại Lý
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+

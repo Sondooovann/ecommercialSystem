@@ -1,0 +1,99 @@
+<div class="admin-layout" [class.sidebar-collapsed]="sidebarCollapsed">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="logo-content">
+        <span class="logo-icon"></span>
+        <span class="logo-text" *ngIf="!sidebarCollapsed">Quản Trị Hệ Thống</span>
+      </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="sidebar-nav">
+      <a
+        *ngFor="let item of menuItems"
+        [routerLink]="item.path"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: item.path === '/admin/dashboard'}"
+        class="nav-item"
+        [title]="item.label">
+        <span class="nav-icon" [innerHTML]="item.icon | safeHtml"></span>
+        <span class="nav-label" *ngIf="!sidebarCollapsed">{{ item.label }}</span>
+      </a>
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+      <button class="toggle-btn" (click)="toggleSidebar()" [title]="sidebarCollapsed ? 'Mở rộng' : 'Thu gọn'">
+        <span class="icon" [innerHTML]="ICON_MENU | safeHtml"></span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header -->
+    <header class="admin-header">
+      <div class="header-left">
+        <button class="mobile-menu-btn" (click)="toggleSidebar()">
+          <span [innerHTML]="ICON_MENU | safeHtml"></span>
+        </button>
+        <h2 class="page-title">Quản trị hệ thống</h2>
+      </div>
+
+      <div class="header-right">
+        <!-- View Site Button -->
+        <button class="btn-view-site" (click)="goToCustomerSite()" title="Xem trang khách hàng">
+          <span>Xem trang web</span>
+        </button>
+
+        <!-- User Menu -->
+        <div class="user-menu" clickOutside (clickOutside)="closeUserMenu()">
+          <button class="user-menu-btn" (click)="toggleUserMenu()">
+            <img
+              [src]="currentUser.avatar || getAvatarPlaceholder()"
+              [alt]="currentUser.name"
+              class="user-avatar">
+            <span class="user-name">{{ currentUser.name }}</span>
+          </button>
+
+          <div class="user-menu-dropdown" *ngIf="showUserMenu">
+            <div class="user-info">
+              <img
+                [src]="currentUser.avatar || getAvatarPlaceholder()"
+                [alt]="currentUser.name"
+                class="user-avatar-large">
+              <div class="user-details">
+                <p class="name">{{ currentUser.name }}</p>
+                <p class="email">{{ currentUser.email }}</p>
+              </div>
+            </div>
+            <div class="menu-divider"></div>
+            <button class="menu-item" (click)="goToCustomerSite()">
+              <span class="icon" [innerHTML]="ICON_USER | safeHtml"></span>
+              <span>Xem trang web</span>
+            </button>
+            <button class="menu-item" [routerLink]="['/admin/settings']" (click)="closeUserMenu()">
+              <span class="icon" [innerHTML]="ICON_SETTINGS | safeHtml"></span>
+              <span>Cài đặt</span>
+            </button>
+            <div class="menu-divider"></div>
+            <button class="menu-item logout" (click)="logout()">
+              <span class="icon" [innerHTML]="ICON_LOGOUT | safeHtml"></span>
+              <span>Đăng xuất</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="page-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" *ngIf="!sidebarCollapsed" (click)="toggleSidebar()"></div>
+</div>

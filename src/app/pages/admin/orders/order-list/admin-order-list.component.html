@@ -1,0 +1,259 @@
+<div class="admin-order-list-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1>Quản lý đơn hàng</h1>
+      <p class="subtitle">Tổng số: {{ totalOrders }} đơn hàng</p>
+    </div>
+    <button 
+      class="btn-bulk-update" 
+      (click)="openBulkUpdateModal()"
+      [disabled]="selectedOrderIds.length === 0">
+      <span class="icon" [innerHTML]="ICON_FILTER | safeHtml"></span>
+      <span>Cập nhật hàng loạt ({{ selectedOrderIds.length }})</span>
+    </button>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-section">
+    <div class="search-box">
+      <span class="search-icon" [innerHTML]="ICON_SEARCH | safeHtml"></span>
+      <input
+        type="text"
+        [(ngModel)]="searchText"
+        (keyup.enter)="onSearch()"
+        placeholder="Tìm kiếm theo mã đơn, tên KH, email...">
+      <button class="search-btn" (click)="onSearch()">Tìm kiếm</button>
+    </div>
+
+    <div class="filter-group">
+      <label>Thanh toán:</label>
+      <select [(ngModel)]="selectedPaymentStatus" (change)="onFilterChange()">
+        <option value="all">Tất cả</option>
+        <option value="pending">Chưa thanh toán</option>
+        <option value="success">Đã thanh toán</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Từ ngày:</label>
+      <input type="date" [(ngModel)]="startDate" (change)="onFilterChange()">
+    </div>
+
+    <div class="filter-group">
+      <label>Đến ngày:</label>
+      <input type="date" [(ngModel)]="endDate" (change)="onFilterChange()">
+    </div>
+
+    <button class="clear-btn" (click)="clearFilters()">
+      <span class="icon" [innerHTML]="ICON_FILTER | safeHtml"></span>
+      Xóa bộ lọc
+    </button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs-section">
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab === 'all'"
+      (click)="selectTab('all')">
+      Tất cả ({{ totalOrders }})
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab === 'pending'"
+      (click)="selectTab('pending')">
+      Chờ xác nhận
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab === 'processing'"
+      (click)="selectTab('processing')">
+      Đang xử lý
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab === 'shipped'"
+      (click)="selectTab('shipped')">
+      Đang giao
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab === 'delivered'"
+      (click)="selectTab('delivered')">
+      Đã giao
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab === 'received_reviewed'"
+      (click)="selectTab('received_reviewed')">
+      Đã nhận & Đánh giá
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="selectedTab === 'cancelled'"
+      (click)="selectTab('cancelled')">
+      Đã hủy
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Đang tải danh sách đơn hàng...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-state">
+    <p>{{ error }}</p>
+    <button class="retry-button" (click)="loadOrders()">Thử lại</button>
+  </div>
+
+  <!-- Orders Table -->
+  <div *ngIf="!loading && !error" class="orders-section">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th class="checkbox-col">
+              <input 
+                type="checkbox" 
+                [checked]="isAllSelected"
+                (change)="toggleSelectAll($event)">
+            </th>
+            <th>Mã ĐH</th>
+            <th>Khách hàng</th>
+            <th>Sản phẩm</th>
+            <th>Tổng tiền</th>
+            <th>Thanh toán</th>
+            <th>Trạng thái</th>
+            <th>Ngày đặt</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of orders">
+            <td class="checkbox-col">
+              <input 
+                type="checkbox" 
+                [checked]="isOrderSelected(order.id)"
+                (change)="toggleOrderSelection(order.id)">
+            </td>
+            <td class="order-id">#{{ order.id }}</td>
+            <td class="customer-info">
+              <div class="customer-avatar" *ngIf="order.customer.avatar">
+                <img [src]="order.customer.avatar" [alt]="order.customer.full_name">
+              </div>
+              <div class="customer-details">
+                <p class="customer-name">{{ order.customer.full_name }}</p>
+                <p class="customer-email">{{ order.customer.email }}</p>
+              </div>
+            </td>
+            <td class="product-info">
+              <div class="product-preview">
+                <img [src]="order.first_product.image"
+                     [alt]="order.first_product.name"
+                     (error)="onImageError($event)">
+                <div class="product-details">
+                  <p class="product-name">{{ order.first_product.name }}</p>
+                  <p class="product-quantity">x{{ order.first_product.quantity }}</p>
+                  <p class="more-items" *ngIf="order.first_product.more_items">
+                    +{{ order.items_count - 1 }} sản phẩm khác
+                  </p>
+                </div>
+              </div>
+            </td>
+            <td class="order-total">
+              {{ formatPrice(order.total_amount) }}
+            </td>
+            <td class="payment-info">
+              <span class="payment-method">{{ getPaymentMethodText(order.payment_method) }}</span>
+              <span class="payment-status" [ngClass]="getPaymentStatusClass(order.payment_status)">
+                {{ order.payment_status === 'success' ? 'Đã TT' : 'Chưa TT' }}
+              </span>
+            </td>
+            <td>
+              <span class="status-badge" [ngClass]="getStatusClass(order.order_status)">
+                {{ getStatusText(order.order_status) }}
+              </span>
+            </td>
+            <td class="order-date">
+              {{ formatDate(order.created_at) }}
+            </td>
+            <td class="order-actions">
+
+                <span [innerHTML]="ICON_VIEW | safeHtml" class="action-btn view" (click)="viewOrderDetail(order.id)" title="Xem chi tiết"></span>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="orders.length === 0" class="empty-state">
+      <p>Không tìm thấy đơn hàng nào</p>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="orders.length > 0 && totalPages > 1" class="pagination">
+      <button
+        class="page-btn"
+        [disabled]="currentPage === 1"
+        (click)="onPageChange(currentPage - 1)">
+        Trước
+      </button>
+
+      <div class="page-info">
+        Trang {{ currentPage }} / {{ totalPages }}
+      </div>
+
+      <button
+        class="page-btn"
+        [disabled]="currentPage === totalPages"
+        (click)="onPageChange(currentPage + 1)">
+        Sau
+      </button>
+    </div>
+  </div>
+
+  <!-- Bulk Update Modal -->
+  <div class="modal-overlay" *ngIf="showBulkModal" (click)="closeBulkModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Cập nhật trạng thái hàng loạt</h2>
+        <button class="close-btn" (click)="closeBulkModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="info-text">Đã chọn <strong>{{ selectedOrderIds.length }}</strong> đơn hàng</p>
+        
+        <div class="form-group">
+          <label>Trạng thái mới: <span class="required">*</span></label>
+          <select [(ngModel)]="bulkStatus" class="form-control">
+            <option value="">-- Chọn trạng thái --</option>
+            <option value="pending">Chờ xác nhận</option>
+            <option value="processing">Đang xử lý</option>
+            <option value="shipped">Đang giao</option>
+            <option value="delivered">Đã giao</option>
+            <option value="cancelled">Đã hủy</option>
+            <option value="received_reviewed">Đã nhận & Đánh giá</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Ghi chú:</label>
+          <textarea 
+            [(ngModel)]="bulkNote" 
+            class="form-control"
+            rows="3"
+            placeholder="Nhập ghi chú (không bắt buộc)..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="closeBulkModal()">Hủy</button>
+        <button class="btn-primary" (click)="bulkUpdateStatus()">Cập nhật</button>
+      </div>
+    </div>
+  </div>
+</div>
+

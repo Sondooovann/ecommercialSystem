@@ -1,0 +1,298 @@
+/* Base */
+$color-white: #fff;
+$color-black: #000;
+$color-blue: #0d6efd;
+$color-indigo: #6610f2;
+$color-purple: #6f42c1;
+$color-pink: #d63384;
+$color-red: #dc3545;
+$color-orange: #fd7e14;
+$color-yellow: #ffc107;
+$color-green: #198754;
+$color-teal: #20c997;
+$color-cyan: #0dcaf0;
+$color-gray: #6c757d;
+
+$color-app: linear-gradient(to right, #3b82f6, #9333ea);
+
+/*  Gray Shades */
+$color-gray-100: #f8f9fa;
+$color-gray-200: #e9ecef;
+$color-gray-300: #dee2e6;
+$color-gray-400: #ced4da;
+$color-gray-500: #adb5bd;
+$color-gray-600: $color-gray;
+$color-gray-700: #495057;
+$color-gray-800: #343a40;
+$color-gray-900: #212529;
+$color-gray-custom: #e6e6e6;
+
+/* Blue Shades*/
+$color-blue-100: mix($color-white, $color-blue, 80%);
+$color-blue-200: mix($color-white, $color-blue, 60%);
+$color-blue-300: mix($color-white, $color-blue, 40%);
+$color-blue-400: mix($color-white, $color-blue, 20%);
+$color-blue-500: $color-blue;
+$color-blue-600: mix($color-black, $color-blue, 20%);
+$color-blue-700: mix($color-black, $color-blue, 40%);
+$color-blue-800: mix($color-black, $color-blue, 60%);
+$color-blue-900: mix($color-black, $color-blue, 80%);
+
+/* Indigo Shades */
+$color-indigo-100: mix($color-white, $color-indigo, 80%);
+$color-indigo-200: mix($color-white, $color-indigo, 60%);
+$color-indigo-300: mix($color-white, $color-indigo, 40%);
+$color-indigo-400: mix($color-white, $color-indigo, 20%);
+$color-indigo-500: $color-indigo;
+$color-indigo-600: mix($color-black, $color-indigo, 20%);
+$color-indigo-700: mix($color-black, $color-indigo, 40%);
+$color-indigo-800: mix($color-black, $color-indigo, 60%);
+$color-indigo-900: mix($color-black, $color-indigo, 80%);
+
+/* Purple Shades */
+$color-purple-100: mix($color-white, $color-purple, 80%);
+$color-purple-200: mix($color-white, $color-purple, 60%);
+$color-purple-300: mix($color-white, $color-purple, 40%);
+$color-purple-400: mix($color-white, $color-purple, 20%);
+$color-purple-500: $color-purple;
+$color-purple-600: mix($color-black, $color-purple, 20%);
+$color-purple-700: mix($color-black, $color-purple, 40%);
+$color-purple-800: mix($color-black, $color-purple, 60%);
+$color-purple-900: mix($color-black, $color-purple, 80%);
+
+/* Pink Shades */
+$color-pink-100: mix($color-white, $color-pink, 80%);
+$color-pink-200: mix($color-white, $color-pink, 60%);
+$color-pink-300: mix($color-white, $color-pink, 40%);
+$color-pink-400: mix($color-white, $color-pink, 20%);
+$color-pink-500: $color-pink;
+$color-pink-600: mix($color-black, $color-pink, 20%);
+$color-pink-700: mix($color-black, $color-pink, 40%);
+$color-pink-800: mix($color-black, $color-pink, 60%);
+$color-pink-900: mix($color-black, $color-pink, 80%);
+
+/* Red Shades */
+$color-red-100: mix($color-white, $color-red, 80%);
+$color-red-200: mix($color-white, $color-red, 60%);
+$color-red-300: mix($color-white, $color-red, 40%);
+$color-red-400: mix($color-white, $color-red, 20%);
+$color-red-500: $color-red;
+$color-red-600: mix($color-black, $color-red, 20%);
+$color-red-700: mix($color-black, $color-red, 40%);
+$color-red-800: mix($color-black, $color-red, 60%);
+$color-red-900: mix($color-black, $color-red, 80%);
+
+/* Orange Shades */
+$color-orange-100: mix($color-white, $color-orange, 80%);
+$color-orange-200: mix($color-white, $color-orange, 60%);
+$color-orange-300: mix($color-white, $color-orange, 40%);
+$color-orange-400: mix($color-white, $color-orange, 20%);
+$color-orange-500: $color-orange;
+$color-orange-600: mix($color-black, $color-orange, 20%);
+$color-orange-700: mix($color-black, $color-orange, 40%);
+$color-orange-800: mix($color-black, $color-orange, 60%);
+$color-orange-900: mix($color-black, $color-orange, 80%);
+
+/* Yellow Shades */
+$color-yellow-100: mix($color-white, $color-yellow, 80%);
+$color-yellow-200: mix($color-white, $color-yellow, 60%);
+$color-yellow-300: mix($color-white, $color-yellow, 40%);
+$color-yellow-400: mix($color-white, $color-yellow, 20%);
+$color-yellow-500: $color-yellow;
+$color-yellow-600: mix($color-black, $color-yellow, 20%);
+$color-yellow-700: mix($color-black, $color-yellow, 40%);
+$color-yellow-800: mix($color-black, $color-yellow, 60%);
+$color-yellow-900: mix($color-black, $color-yellow, 80%);
+
+/* Green Shades */
+$color-green-100: mix($color-white, $color-green, 80%);
+$color-green-200: mix($color-white, $color-green, 60%);
+$color-green-300: mix($color-white, $color-green, 40%);
+$color-green-400: mix($color-white, $color-green, 20%);
+$color-green-500: $color-green;
+$color-green-600: mix($color-black, $color-green, 20%);
+$color-green-700: mix($color-black, $color-green, 40%);
+$color-green-800: mix($color-black, $color-green, 60%);
+$color-green-900: mix($color-black, $color-green, 80%);
+
+/* Teal Shades */
+$color-teal-100: mix($color-white, $color-teal, 80%);
+$color-teal-200: mix($color-white, $color-teal, 60%);
+$color-teal-300: mix($color-white, $color-teal, 40%);
+$color-teal-400: mix($color-white, $color-teal, 20%);
+$color-teal-500: $color-teal;
+$color-teal-600: mix($color-black, $color-teal, 20%);
+$color-teal-700: mix($color-black, $color-teal, 40%);
+$color-teal-800: mix($color-black, $color-teal, 60%);
+$color-teal-900: mix($color-black, $color-teal, 80%);
+
+/* Cyan Shades */
+$color-cyan-100: mix($color-white, $color-cyan, 80%);
+$color-cyan-200: mix($color-white, $color-cyan, 60%);
+$color-cyan-300: mix($color-white, $color-cyan, 40%);
+$color-cyan-400: mix($color-white, $color-cyan, 20%);
+$color-cyan-500: $color-cyan;
+$color-cyan-600: mix($color-black, $color-cyan, 20%);
+$color-cyan-700: mix($color-black, $color-cyan, 40%);
+$color-cyan-800: mix($color-black, $color-cyan, 60%);
+$color-cyan-900: mix($color-black, $color-cyan, 80%);
+
+/* Semantic Colors */
+$color-primary: $color-blue;
+$color-secondary: $color-gray-600;
+$color-success: $color-green;
+$color-info: $color-cyan;
+$color-warning: $color-yellow;
+$color-danger: $color-red;
+$color-light: $color-gray-100;
+$color-dark: $color-gray-900;
+
+$color-text-complete: #00c853;
+$color-text-confirm: #2196f3;
+$color-text-processing: #f44336;
+$color-bg-processing: #ef9a9a40;
+$color-bg-confirm: #e3f2fd;
+$color-bg-complete: #b9f6ca80;
+
+// font-size
+$font-size-xxl: 32px;
+$font-size-xl: 24px;
+$font-size-lg: 18px;
+$font-size-md: 16px;
+$font-size-sm: 14px;
+$font-size-xs: 12px;
+
+$height-input: 40px;
+
+// color
+$color-base: #2a8b08;
+
+$color-base-50: #ffeee6;
+$color-base-100: #ffcab0;
+$color-base-200: #ffb18a;
+$color-base-300: #ff8d54;
+$color-base-400: #ff7733;
+$color-base-500: #ff5500;
+$color-base-600: #e84d00;
+$color-base-700: #b53c00;
+$color-base-800: #8c2f00;
+$color-base-900: #6b2400;
+
+$color-bg-active: #102a63;
+
+$color-btn-active: #b53c00;
+
+// color Primary
+$color-primary-900: #00314f;
+$color-primary-850: #004068;
+$color-primary-800: #005286;
+$color-primary-700: #006aac;
+$color-primary-600: #0074bd;
+$color-primary-500: #3390ca;
+$color-primary-400: #54a2d3;
+$color-primary-300: #8abfe1;
+$color-primary-200: #b0d4eb;
+$color-primary-100: #e6f1f8;
+
+// color Secondary
+$color-secondary-900: #612200;
+$color-secondary-850: #7f2d00;
+$color-secondary-800: #a33a00;
+$color-secondary-700: #d14a00;
+$color-secondary-600: #e65100;
+$color-secondary-500: #eb7433;
+$color-secondary-400: #ee8a54;
+$color-secondary-300: #f4af8a;
+$color-secondary-200: #f7c9b0;
+$color-secondary-100: #fdeee6;
+
+// color Text
+$color-text-900: #000;
+$color-text-800: #333;
+$color-text-700: #545454;
+$color-text-600: #8a8a8a;
+$color-text-500: #b0b0b0;
+$color-text-400: #e6e6e6;
+
+// color Error
+$color-error-900: #6b0000;
+$color-error-850: #8c0000;
+$color-error-800: #b50000;
+$color-error-700: #e80000;
+$color-error-600: #f00;
+$color-error-500: #f33;
+$color-error-400: #ff5454;
+$color-error-300: #ff8a8a;
+$color-error-200: #ffb0b0;
+$color-error-100: #ffe6e6;
+
+// color Success
+$color-success-900: #054820;
+$color-success-850: #065e29;
+$color-success-800: #087935;
+$color-success-700: #0a9c44;
+$color-success-600: #0bab4b;
+$color-success-500: #3cbc6f;
+$color-success-400: #5cc786;
+$color-success-300: #8fd8ac;
+$color-success-200: #b3e5c7;
+$color-success-100: #e7f7ed;
+
+// bg color
+$color-white: #fff;
+$color-gray-bold: #dee0e2;
+$color-gray: #f4f6f8;
+$bg-area-name: #eceef0;
+
+// color
+$color: var(--Text-900, #000);
+$color-active: var(--White, #fff);
+$color-tab-active: var(--Pri-900, #00314f);
+$color-title: var(--Blue-900, #005286);
+$color-title-table: var(--Pri-900, #00314f);
+$color-border-table: var(--Backgroud-2, #dee0e2);
+$color-input: var(--Grey-300, #545454);
+$color-btn-primary: var(--White, #fff);
+$color-btn-outline-primary: var(--Pri-500, #0074bd);
+$color-title-picker: var(--Text-800, #333);
+$color-th-picker: var(--Grey-200, #8a8a8a);
+$color-td-picker: var(--Grey-900, #000);
+$color-icon-picker: var(--Pri-500, #0074bd);
+$color-label-detail: var(--Grey-800, #455064);
+$color-value-detail: var(--Grey-900, #191a1c);
+
+// background
+$background-side: var(--Backgroud, #f4f6f8);
+$background-btn-primary: var(--Pri-500, #0074bd);
+$background-active: var(--Pri-500, #0074bd);
+$background-white: var(--Grey-0, #fff);
+$background-table-header: var(--Pri-50, #e6f1f8);
+$background-alert-error: #fff5f5;
+$background-hover-table: #d9eaf5;
+
+// font-size
+$font-size-xxl: var(--base-font-size-xxl, 24px);
+$font-size-xl: var(--base-font-size-xl, 20px);
+$font-size-lg: var(--base-font-size-lg, 18px);
+$font-size-md: var(--base-font-size-md, 16px);
+$font-size-sm: var(--base-font-size-sm, 14px);
+$font-size-xs: var(--base-font-size-xs, 12px);
+
+// border
+$border-color: var(--Backgroud, #f4f6f8);
+$border-color-input: var(--Grey-50, #e6e6e6);
+$border-color-active: var(--Pri-500, #0074bd);
+$border-btn-outline: var(--Pri-500, #0074bd);
+
+// shadow
+$shadow-dropdown: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+$shadow-table: 8px 0 12px 0 rgba(0, 0, 0, 0.1);
+
+// input
+$height-input: 36px;
+$height-input-value-container: 34px;
+$height-button: 36px;
+
+// background-image
+$background-image-modal-close: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 5L18.9991 18.9991" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.00094 18.9991L19 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+$background-image-checked: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2221%22%20height%3D%2220%22%20viewBox%3D%220%200%2021%2020%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M14.69%200H6.31C2.67%200%200.5%202.17%200.5%205.81V14.18C0.5%2017.83%202.67%2020%206.31%2020H14.68C18.32%2020%2020.49%2017.83%2020.49%2014.19V5.81C20.5%202.17%2018.33%200%2014.69%200ZM15.28%207.7L9.61%2013.37C9.47%2013.51%209.28%2013.59%209.08%2013.59C8.88%2013.59%208.69%2013.51%208.55%2013.37L5.72%2010.54C5.43%2010.25%205.43%209.77%205.72%209.48C6.01%209.19%206.49%209.19%206.78%209.48L9.08%2011.78L14.22%206.64C14.51%206.35%2014.99%206.35%2015.28%206.64C15.57%206.93%2015.57%207.4%2015.28%207.7Z%22%20fill%3D%22%230074BD%22%2F%3E%3C%2Fsvg%3E);

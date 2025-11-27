@@ -1,0 +1,191 @@
+<div class="home-container">
+  
+  <!-- Hero Banner Section -->
+  <section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Chè Thái Nguyên Xanh</h1>
+      <p class="hero-subtitle">Hương vị tinh túy từ vùng đất nổi tiếng</p>
+      <p class="hero-description">
+        Sản phẩm chè cao cấp, 100% tự nhiên từ vùng trồng chè Tân Cương - Thái Nguyên
+      </p>
+      <div class="hero-buttons">
+        <button class="btn-primary" (click)="goToProducts()">
+          Khám Phá Ngay
+        </button>
+        <button class="btn-outline" (click)="scrollToSection('categories')">
+          Xem Danh Mục
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section id="categories" class="section categories-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Các Loại Chè Thái Nguyên</h2>
+        <p class="section-subtitle">Khám phá bộ sưu tập chè đặc sản từ Thái Nguyên</p>
+      </div>
+
+      <div class="categories-grid">
+        <div 
+          *ngFor="let category of categories" 
+          class="category-card"
+          (click)="goToCategory(category.name)">
+          <div class="category-image">
+            <div class="image-placeholder">
+              <span class="placeholder-icon">🍵</span>
+            </div>
+          </div>
+          <div class="category-info">
+            <h3 class="category-name">{{ category.name }}</h3>
+            <p class="category-description">{{ category.description }}</p>
+          </div>
+          <div class="category-overlay">
+            <span class="view-more">Xem Thêm →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products Section -->
+  <section class="section featured-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Sản Phẩm Nổi Bật</h2>
+        <p class="section-subtitle">Những sản phẩm chè được yêu thích nhất</p>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-container">
+        <div class="spinner"></div>
+        <p>Đang tải sản phẩm...</p>
+      </div>
+
+      <!-- Products Grid -->
+      <div *ngIf="!loading && featuredProducts.length > 0" class="products-grid">
+        <jhi-product-item 
+          *ngFor="let product of featuredProducts" 
+          [product]="{
+            id: product.id,
+            name: product.name,
+            price: +product.sale_price,
+            image: product.thumbnail,
+            description: product.short_description
+          }"
+          [type]="'grid'">
+        </jhi-product-item>
+      </div>
+
+      <div class="section-footer">
+        <button class="btn-view-all" (click)="goToProducts()">
+          Xem Tất Cả Sản Phẩm
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="section benefits-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Tại Sao Chọn Chúng Tôi?</h2>
+        <p class="section-subtitle">Cam kết mang đến sản phẩm chè chất lượng nhất</p>
+      </div>
+
+      <div class="benefits-grid">
+        <div *ngFor="let benefit of benefits" class="benefit-card">
+          <div class="benefit-icon">{{ benefit.icon }}</div>
+          <h3 class="benefit-title">{{ benefit.title }}</h3>
+          <p class="benefit-description">{{ benefit.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Best Sellers Section -->
+  <section class="section bestsellers-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Sản Phẩm Bán Chạy</h2>
+        <p class="section-subtitle">Những sản phẩm được khách hàng tin dùng</p>
+      </div>
+
+      <div *ngIf="bestSellerProducts.length > 0" class="products-grid">
+        <jhi-product-item 
+          *ngFor="let product of bestSellerProducts" 
+          [product]="{
+            id: product.id,
+            name: product.name,
+            price: +product.sale_price,
+            image: product.thumbnail,
+            description: product.short_description
+          }"
+          [type]="'grid'">
+        </jhi-product-item>
+      </div>
+
+      <div class="section-footer">
+        <button class="btn-view-all" (click)="goToProducts()">
+          Khám Phá Thêm
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="section about-section">
+    <div class="container">
+      <div class="about-content">
+        <div class="about-text">
+          <h2 class="about-title">Về Chè Thái Nguyên Xanh</h2>
+          <p class="about-description">
+            Chè Thái Nguyên Xanh tự hào là đơn vị cung cấp các sản phẩm chè cao cấp từ vùng đất nổi tiếng Thái Nguyên. 
+            Với hơn 20 năm kinh nghiệm trong nghề, chúng tôi cam kết mang đến cho khách hàng những sản phẩm chè 
+            chất lượng nhất, giữ trọn hương vị truyền thống và tinh hoa của chè Việt.
+          </p>
+          <div class="about-features">
+            <div class="feature-item">
+              <span class="feature-number">20+</span>
+              <span class="feature-label">Năm Kinh Nghiệm</span>
+            </div>
+            <div class="feature-item">
+              <span class="feature-number">10,000+</span>
+              <span class="feature-label">Khách Hàng Tin Dùng</span>
+            </div>
+            <div class="feature-item">
+              <span class="feature-number">100%</span>
+              <span class="feature-label">Chè Tự Nhiên</span>
+            </div>
+          </div>
+          <button class="btn-primary" (click)="goToProducts()">
+            Mua Sắm Ngay
+          </button>
+        </div>
+        <div class="about-image">
+          <div class="image-placeholder">
+            <span class="placeholder-text">🌿<br>Chè Thái Nguyên<br>Đặc Sản</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="cta-title">Trải Nghiệm Hương Vị Chè Thái Nguyên</h2>
+        <p class="cta-description">
+          Đặt hàng ngay để nhận ưu đãi đặc biệt và miễn phí vận chuyển cho đơn hàng đầu tiên
+        </p>
+        <button class="btn-cta" (click)="goToProducts()">
+          Đặt Hàng Ngay
+        </button>
+      </div>
+    </div>
+  </section>
+
+</div>

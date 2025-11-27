@@ -1,0 +1,198 @@
+<div class="checkout-container">
+  <!-- Header -->
+  <div class="checkout-header">
+    <div class="header-left" (click)="goBack()">
+      <div class="back-icon" [innerHTML]="ICON_BACK | safeHtml"></div>
+      <h2>Thanh Toán</h2>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading || loadingAddresses" class="loading-container">
+    <div class="spinner"></div>
+    <p>Đang tải...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <p>{{ error }}</p>
+    <button class="retry-btn" (click)="loadData()">Thử lại</button>
+  </div>
+
+  <!-- Checkout Content -->
+  <div *ngIf="!loading && !loadingAddresses && !error" class="checkout-content">
+    
+    <!-- Delivery Address Section -->
+    <div class="section address-section">
+      <div class="section-header">
+        <div class="section-icon" [innerHTML]="ICON_LOCATION_DOT | safeHtml"></div>
+        <h3>Địa Chỉ Nhận Hàng</h3>
+      </div>
+      
+      <div *ngIf="selectedAddress" class="address-content">
+        <div class="address-info">
+          <div class="address-recipient">
+            <span class="recipient-name">{{ selectedAddress.recipient_name }}</span>
+            <span class="recipient-phone">{{ selectedAddress.phone }}</span>
+          </div>
+          <div class="address-detail">
+            {{ getFullAddress(selectedAddress) }}
+          </div>
+          <span *ngIf="selectedAddress.is_default" class="default-badge">Mặc định</span>
+        </div>
+        <button class="change-btn" (click)="goToAddressList()">Thay đổi</button>
+      </div>
+
+      <div *ngIf="!selectedAddress" class="no-address">
+        <p>Chưa có địa chỉ giao hàng</p>
+        <button class="add-address-btn" (click)="goToAddressList()">Thêm địa chỉ</button>
+      </div>
+    </div>
+
+    <!-- Products Section -->
+    <div class="section products-section">
+      <div class="section-header">
+        <h3>Sản Phẩm</h3>
+      </div>
+
+      <div class="products-list">
+        <!-- Product Header -->
+        <div class="product-header">
+          <div class="product-header-left">Sản phẩm</div>
+          <div class="product-header-right">
+            <span class="header-col">Đơn giá</span>
+            <span class="header-col">Số lượng</span>
+            <span class="header-col">Thành tiền</span>
+          </div>
+        </div>
+
+        <!-- Products grouped by shop -->
+        <ng-container *ngFor="let shop of groupedItems">
+          <div class="shop-group">
+            <div class="shop-header">
+              <span class="shop-name">{{ shop.shop_name }}</span>
+            </div>
+
+            <div *ngFor="let item of shop.items" class="product-item">
+              <div class="product-main">
+                <div class="product-image">
+                  <img 
+                    [src]="item.variant_details.image_url || getPlaceholderImage()" 
+                    [alt]="item.variant_details.product_name"
+                    (error)="onImageError($event)"
+                  />
+                </div>
+                <div class="product-info">
+                  <h4 class="product-name">{{ item.variant_details.product_name }}</h4>
+                  <p class="product-variant" *ngIf="item.variant_details.attributes.length > 0">
+                    Phân loại: 
+                    <span *ngFor="let attr of item.variant_details.attributes; let last = last">
+                      {{ attr.display_value }}<span *ngIf="!last">, </span>
+                    </span>
+                  </p>
+                </div>
+              </div>
+              
+              <div class="product-details">
+                <div class="product-price">{{ formatPrice(item.price) }}</div>
+                <div class="product-quantity">{{ item.quantity }}</div>
+                <div class="product-subtotal">{{ formatPrice(parseFloat(item.price) * item.quantity) }}</div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Payment Method Section -->
+    <div class="section payment-section">
+      <div class="section-header">
+        <h3>Phương Thức Thanh Toán</h3>
+      </div>
+      
+      <div class="payment-methods">
+        <label class="payment-option">
+          <input 
+            type="radio" 
+            name="paymentMethod" 
+            value="cod" 
+            [(ngModel)]="paymentMethod"
+          />
+          <div class="payment-info">
+            <span class="payment-name">Thanh toán khi nhận hàng (COD)</span>
+            <span class="payment-desc">Thanh toán bằng tiền mặt khi nhận hàng</span>
+          </div>
+        </label>
+
+        <label class="payment-option">
+          <input 
+            type="radio" 
+            name="paymentMethod" 
+            value="online" 
+            [(ngModel)]="paymentMethod"
+          />
+          <div class="payment-info">
+            <span class="payment-name">Thanh toán online</span>
+            <span class="payment-desc">Thanh toán qua ví điện tử hoặc thẻ ngân hàng</span>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Order Notes Section -->
+    <div class="section notes-section">
+      <div class="section-header">
+        <h3>Ghi Chú Đơn Hàng</h3>
+      </div>
+      
+      <textarea 
+        class="order-notes" 
+        placeholder="Ghi chú cho người bán..."
+        [(ngModel)]="orderNotes"
+        rows="3"
+      ></textarea>
+    </div>
+
+    <!-- Order Summary Section -->
+    <div class="section summary-section">
+      <div class="summary-row">
+        <span class="summary-label">Tổng tiền hàng:</span>
+        <span class="summary-value">{{ formatPrice(totalProductAmount) }}</span>
+      </div>
+      
+      <div class="summary-row">
+        <span class="summary-label">Phí vận chuyển:</span>
+        <span class="summary-value">{{ formatPrice(shippingFee) }}</span>
+      </div>
+
+      <div class="summary-row discount-row">
+        <span class="summary-label">Voucher giảm giá:</span>
+        <span class="summary-value discount">- {{ formatPrice(0) }}</span>
+      </div>
+
+      <div class="summary-divider"></div>
+
+      <div class="summary-row total-row">
+        <span class="summary-label">Tổng thanh toán:</span>
+        <span class="summary-value total">{{ formatPrice(totalAmount) }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Action Bar -->
+  <div *ngIf="!loading && !loadingAddresses && selectedItems.length > 0" class="checkout-bottom">
+    <div class="bottom-left">
+      <div class="total-label">Tổng thanh toán:</div>
+      <div class="total-amount">{{ formatPrice(totalAmount) }}</div>
+    </div>
+    
+    <button 
+      class="place-order-btn" 
+      (click)="placeOrder()"
+      [disabled]="!selectedAddress || selectedItems.length === 0"
+    >
+      Đặt Hàng
+    </button>
+  </div>
+</div>
+

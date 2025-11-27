@@ -1,0 +1,72 @@
+@import './styles/scss/variables-base';
+/* You can add global styles to this file, and also import other style files */
+
+/* Reset margin và padding cho toàn bộ trang */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100%;
+  width: 100%;
+}
+
+.main-container {
+  display: flex;
+  width: 80%;
+  max-width: 1400px;
+  gap: 20px;
+}
+
+.sidebar {
+  width: 20%;
+  background: transparent;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-self: stretch;
+
+  .sidebar-box {
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 10px 15px 15px;
+
+    .title {
+      background: $color-base;
+      color: white;
+      font-weight: 600;
+      font-size: 16px;
+      padding: 10px 15px;
+      border-radius: 6px;
+      margin: -10px -15px 10px -15px; /* mở rộng màu tiêu đề ra hết box */
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        margin: 8px 0;
+
+        a {
+          text-decoration: none;
+          color: #333;
+          font-weight: 500;
+          transition: color 0.2s;
+
+          &:hover {
+            color: #2b7a2b;
+          }
+        }
+      }
+    }
+  }
+}

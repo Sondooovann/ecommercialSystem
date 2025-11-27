@@ -1,0 +1,142 @@
+<div class="verify-otp-container d-flex justify-content-center align-items-center">
+  <div class="left-container w-50">
+    <div class="row mb-5">
+      <div class="col-12 d-flex justify-content-center">
+        <!-- <img src="/assets/images/sds-logo.svg" alt="SDS logo" class="company-logo" /> -->
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-12 d-flex justify-content-center">
+        <h1 class="form-title">XÁC THỰC TÀI KHOẢN</h1>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-12 d-flex justify-content-center">
+        <p class="form-description">
+          Vui lòng nhập mã OTP đã được gửi đến email của bạn
+        </p>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div class="row mb-3" *ngIf="errorMessage">
+      <div class="col-12 d-flex justify-content-center">
+        <div class="alert alert-danger">
+          {{ errorMessage }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Message -->
+    <div class="row mb-3" *ngIf="successMessage">
+      <div class="col-12 d-flex justify-content-center">
+        <div class="alert alert-success">
+          {{ successMessage }}
+        </div>
+      </div>
+    </div>
+
+    <form (ngSubmit)="verifyOtp()" [formGroup]="otpForm">
+      <!-- Email -->
+      <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-center">
+          <div class="custom-auth-input">
+            <label for="email">Email</label>
+            <div class="prefix-icon" [innerHTML]="ICON_MAIL | safeHtml"></div>
+            <input
+              type="email"
+              id="email"
+              placeholder="example@email.com"
+              formControlName="email"
+              [readonly]="!!email"
+              data-cy="email"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- OTP Code -->
+      <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-center">
+          <div class="custom-auth-input otp-input">
+            <label for="otp_code">Mã OTP</label>
+            <input
+              type="text"
+              id="otp_code"
+              placeholder="Nhập mã 6 số"
+              formControlName="otp_code"
+              maxlength="6"
+              data-cy="otp_code"
+              class="otp-code-input"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Resend OTP -->
+      <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-center">
+          <div class="custom-auth-row">
+            <button type="button" class="resend-btn" (click)="resendOtp()" [disabled]="loading">
+              Gửi lại mã OTP
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+          <div class="custom-auth-row">
+            <button class="verify-button" [disabled]="loading" data-cy="submit">
+              {{ loading ? 'Đang xử lý...' : 'Xác thực' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="row">
+      <div class="col-12 d-flex justify-content-center gap-1">
+        <span>Quay lại</span>
+        <a class="color-base fw-semibold" [href]="LOGIN_ROUTE">Đăng nhập</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="right-container w-50">
+    <div class="row">
+      <div class="col-12 py-5">
+        <img src="/assets/images/login/svg/thumbnail.svg" alt="Verify OTP thumbnail" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="footer-title mb-3">Thái Nguyên Xanh – Giải pháp mua sắm thông minh cho mọi nhà</div>
+        <div class="footer-info mb-2">
+          <span [innerHTML]="ICON_LOCATION | safeHtml"></span>
+          <span>Đại học Công nghiệp Hà Nội</span>
+        </div>
+        <div class="footer-info mb-2">
+          <span [innerHTML]="ICON_LOCATION | safeHtml"></span>
+          <span>Hanoi University of Industry</span>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <div class="footer-info mb-2">
+            <span [innerHTML]="ICON_MAIL | safeHtml"></span>
+            <span>info&#64;haui.vn</span>
+          </div>
+          <div class="footer-info mb-2">
+            <span [innerHTML]="ICON_PHONE | safeHtml"></span>
+            <span>0123 456 789 - 1900 00 00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="right-bg"></div>
+</div>
+
+
+

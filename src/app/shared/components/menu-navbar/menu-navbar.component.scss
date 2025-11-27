@@ -1,0 +1,72 @@
+@import '../../../../styles/scss/variables-base';
+
+.menu-container {
+  width: 100%;
+  background-color: $color-base;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.menu-list {
+  list-style: none;
+  display: flex;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.menu-list li {
+  position: relative;
+}
+
+.menu-list li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+  padding: 10px 0;
+  display: block;
+}
+
+.menu-list li a:hover {
+  color: $color-success-200;
+  border-bottom: 2px solid $color-success-200;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  border-radius: 6px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  display: none;
+  min-width: 200px;
+  z-index: 10;
+}
+
+.dropdown-menu li a {
+  color: #333;
+  padding: 8px 15px;
+  text-transform: none;
+  font-weight: 500;
+}
+
+.dropdown-menu li a:hover {
+  background: $color-success-200;
+  color: white;
+  border: none;
+}
+
+/* Hover để hiện menu con */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}

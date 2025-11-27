@@ -1,0 +1,16 @@
+<!-- Dạng GRID (ô vuông) -->
+<div *ngIf="type === 'grid'" class="product-card grid" (click)="navigateToDetail()">
+  <img [src]="product.image" [alt]="product.name" />
+  <h3>{{ product.name }}</h3>
+  <p class="price">{{ product.price | currency:'VND' }}</p>
+</div>
+
+<!-- Dạng LIST (ngang) -->
+<div *ngIf="type === 'list'" class="product-card list" (click)="navigateToDetail()">
+  <img [src]="product.image" [alt]="product.name" />
+  <div class="info">
+    <h3>{{ product.name }}</h3>
+    <p class="desc">{{ product.description }}</p>
+    <p class="price">{{ product.price | currency:'VND' }}</p>
+  </div>
+</div>
